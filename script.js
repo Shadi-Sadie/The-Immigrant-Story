@@ -163,15 +163,30 @@ function toggleRace(val,btn) {
 // ── CARDS ─────────────────────────────────────────────────────────────
 function startCards(){goTo('s-cards');renderCard();}
 
+function isCardComplete(index=ci){
+  return BEAT_ORDER.every(beat=>CA[index][beat]!==null);
+}
+
 function updateProg(){
   const dots=document.getElementById('prog-dots');
   dots.innerHTML='';
   PERSONAS.forEach((_,i)=>{
     const d=document.createElement('div');
-    d.className='prog-dot'+(i===ci?' current':CA[i].stay!==null?' done':'');
+    d.className='prog-dot'+(i===ci?' current':isCardComplete(i)?' done':'');
     dots.appendChild(d);
   });
   document.getElementById('prog-label').textContent=`${ci+1} of ${PERSONAS.length}`;
+}
+
+function updateCardNav(){
+  const nextBtn=document.getElementById('next-btn');
+  const complete=isCardComplete(ci);
+  nextBtn.style.display='block';
+  if(ci<PERSONAS.length-1){
+    nextBtn.textContent=complete?'Next person →':'Skip to next person →';
+  } else {
+    nextBtn.textContent=complete?'See your results →':'Skip to results →';
+  }
 }
 
 function makeAvatar(p){
@@ -189,12 +204,9 @@ function makeAvatar(p){
 function renderCard(){
   updateProg();
   const p=PERSONAS[ci];
-  const allDone=CA[ci].stay!==null;
-  const nextBtn=document.getElementById('next-btn');
   const backBtn=document.getElementById('back-btn');
   backBtn.disabled=ci===0;
-  nextBtn.style.display=allDone?'block':'none';
-  nextBtn.textContent=ci<PERSONAS.length-1?'Next person →':'See your results →';
+  updateCardNav();
 
   document.getElementById('card-el').innerHTML=`
     <div class="card">
@@ -284,7 +296,10 @@ function selEmotion(val,btn){
   CA[ci].emotion=val;
   document.querySelectorAll('.e-tile').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  setTimeout(()=>renderBeats(),280);
+  setTimeout(()=>{
+    renderBeats();
+    updateCardNav();
+  },280);
 }
 
 function selJ(beat,val,btn){
@@ -293,25 +308,25 @@ function selJ(beat,val,btn){
   btn.classList.add(`on-${val}`);
   setTimeout(()=>{
     renderBeats();
-    const a=CA[ci];
-    if(a.emotion&&a.immigrant&&a.belongs&&a.stay){
-      const nb=document.getElementById('next-btn');
-      nb.style.display='block';
-      nb.textContent=ci<PERSONAS.length-1?'Next person →':'See your results →';
-    }
+    updateCardNav();
   },280);
 }
 
 function changeBeat(beat){
   BEAT_ORDER.slice(BEAT_ORDER.indexOf(beat)).forEach(b=>{CA[ci][b]=null;});
-  document.getElementById('next-btn').style.display='none';
   renderBeats();
+  updateCardNav();
 }
 
 function prevCard(){if(ci>0){ci--;renderCard();document.getElementById('s-cards').scrollIntoView({behavior:'smooth',block:'start'});}}
 function nextCard(){
   if(ci<PERSONAS.length-1){ci++;renderCard();document.getElementById('s-cards').scrollIntoView({behavior:'smooth',block:'start'});}
   else goTo('s-reasoning');
+}
+
+function backToCards(){
+  goTo('s-cards');
+  renderCard();
 }
 
 // ── REASONING ─────────────────────────────────────────────────────────
