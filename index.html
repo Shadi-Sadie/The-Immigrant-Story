@@ -6,6 +6,7 @@
 <title>Who Is an Immigrant?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Space+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
 <link rel="stylesheet" href="style.css">
@@ -288,11 +289,32 @@
   </div>
 </div>
 
+
+
+<!-- PART THREE: POLICY TIMELINE -->
+<div id="s-timeline" style="display:none">
+  <div class="tl-intro-section">
+    <div>
+      <p style="font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:#d4a574;margin-bottom:0.75rem;">Part Three</p>
+      <h1 class="tl-intro-title">Immigration Policy Timeline</h1>
+      <p class="tl-intro-sub">Journey through American immigration history as policy shifts unfold before you</p>
+      <p class="tl-intro-hint">↓ Scroll to begin ↓</p>
+    </div>
+  </div>
+  <div class="tl-timeline-container">
+    <div class="tl-viz-wrapper">
+      <svg id="timeline-viz" viewBox="0 0 1200 800"></svg>
+      <div class="tl-traveler"></div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="page">
     <p class="fnote">An interactive exploration of language, identity, and immigration policy.</p>
   </div>
 </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
