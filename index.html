@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Who Is an Immigrant?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Space+Mono&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="style.css">
+<!-- OPENING -->
+<div id="s-opening">
+  <div class="mast">
+    <div class="page">
+      <p class="mast-eye">Part One</p>
+      <h1 class="mast-title">Who Is an <em>Immigrant</em>?</h1>
+      <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
+      <p class="mast-sub">Nine people. A few questions. No right answers.</p>
+    </div>
+  </div>
+  <div class="page screen chapter-panel opening-panel">
+    <div class="opening">
+      <p>I have been an immigrant for most of my adult life.</p>
+      <p>I know what it feels like to fill out forms that determine whether you belong. To carry documents that expire. To be asked where you are "really from" after you've already answered. To watch people decide what you are before you've said a word.</p>
+      <p>But here's what I don't know: what's happening on the other side of that moment. What people actually think when they hear the word "immigrant." Whether they are afraid, indifferent, sympathetic — or something more complicated than any of those. Whether their answer changes depending on who the immigrant is.</p>
+      <p>I built this to find out. Not to prove a point — I genuinely don't know what we'll find. I have assumptions. Some of them are probably wrong.</p>
+      <p>You'll meet nine people. Answer a few questions about each one. At the end I'll show you what your answers reveal — and how they compare to everyone else who has been through this.</p>
+      <p class="duration">About 12 minutes. All answers are anonymous.</p>
+    </div>
+    <div class="chapter-actions">
+      <button class="btn-primary" onclick="goToDemo()">Begin →</button>
+      <button class="btn-skip" onclick="skipToPartTwo()">Skip Part One →</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEMOGRAPHICS -->
+<div id="s-demo" style="display:none">
+  <div class="mast">
+    <div class="page">
+      <p class="mast-eye">Before we begin</p>
+      <h1 class="mast-title">A little <em>context</em></h1>
+      <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
+    </div>
+  </div>
+  <div class="page screen chapter-panel demo-panel">
+    <p class="demo-intro">Before we ask who counts as an immigrant, it helps to know where you're answering from. Everything here is optional and anonymous.</p>
+    <p class="demo-note">You can skip this section at any time and go straight to the story.</p>
+
+    <div class="demo-step" data-step="1">
+      <p class="demo-step-kicker">Step 1 of 3</p>
+      <div class="demo-group">
+        <span class="demo-label">How old are you?</span>
+        <div class="tile-g3">
+          <button class="dtile" onclick="setD('age','under25',this)">Under 25</button>
+          <button class="dtile" onclick="setD('age','25-34',this)">25 – 34</button>
+          <button class="dtile" onclick="setD('age','35-44',this)">35 – 44</button>
+          <button class="dtile" onclick="setD('age','45-54',this)">45 – 54</button>
+          <button class="dtile" onclick="setD('age','55-64',this)">55 – 64</button>
+          <button class="dtile" onclick="setD('age','65+',this)">65 +</button>
+        </div>
+      </div>
+
+      <div class="demo-group">
+        <span class="demo-label">How do you identify?</span>
+        <div class="tile-g2">
+          <button class="dtile" onclick="setD('gender','man',this)">Man</button>
+          <button class="dtile" onclick="setD('gender','woman',this)">Woman</button>
+          <button class="dtile" onclick="setD('gender','nonbinary',this)">Non-binary</button>
+          <button class="dtile" onclick="setD('gender','prefer_not',this)">Prefer not to say</button>
+        </div>
+      </div>
+
+      <div class="chapter-actions demo-actions">
+        <button class="btn-primary" onclick="advanceDemoStep(2)">Continue →</button>
+        <button class="btn-skip" onclick="skipToPartTwo()">Skip Part One →</button>
+      </div>
+    </div>
+
+    <div class="demo-step" data-step="2" style="display:none">
+      <p class="demo-step-kicker">Step 2 of 3</p>
+      <div class="demo-group">
+        <span class="demo-label">How do you describe your race or ethnicity? <em style="font-size:0.78rem">(Select all that apply)</em></span>
+        <div class="race-g">
+          <button class="rtile" onclick="toggleRace('white',this)">White</button>
+          <button class="rtile" onclick="toggleRace('hispanic',this)">Hispanic or Latino</button>
+          <button class="rtile" onclick="toggleRace('black',this)">Black or African American</button>
+          <button class="rtile" onclick="toggleRace('asian',this)">Asian</button>
+          <button class="rtile" onclick="toggleRace('mena',this)">Middle Eastern or North African</button>
+          <button class="rtile" onclick="toggleRace('native',this)">Native American</button>
+          <button class="rtile" onclick="toggleRace('pacific',this)">Pacific Islander</button>
+          <button class="rtile" onclick="toggleRace('multiracial',this)">Multiracial</button>
+          <button class="rtile" onclick="toggleRace('prefer_not',this)">Prefer not to say</button>
+        </div>
+      </div>
+
+      <div class="demo-group">
+        <span class="demo-label">Were you born in the United States?</span>
+        <div class="tile-g2">
+          <button class="dtile" onclick="setD('born_us','yes',this)">Yes</button>
+          <button class="dtile" onclick="setD('born_us','no',this)">No</button>
+        </div>
+      </div>
+
+      <div class="chapter-actions demo-actions">
+        <button class="btn-primary" onclick="advanceDemoStep(3)">Continue →</button>
+        <button class="btn-skip" onclick="skipToPartTwo()">Skip Part One →</button>
+      </div>
+    </div>
+
+    <div class="demo-step" data-step="3" style="display:none">
+      <p class="demo-step-kicker">Step 3 of 3</p>
+      <div class="demo-group">
+        <span class="demo-label">Do you have family members who immigrated to the US?</span>
+        <div class="tile-g2">
+          <button class="dtile" onclick="setD('family_imm','yes',this)">Yes</button>
+          <button class="dtile" onclick="setD('family_imm','no',this)">No</button>
+        </div>
+      </div>
+
+      <div class="demo-group">
+        <span class="demo-label">What state do you live in?</span>
+        <select class="dselect" id="demo-state" onchange="demos.state=this.value">
+          <option value="">Select a state</option>
+          <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+          <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+          <option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+          <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
+          <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
+          <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+          <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
+          <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
+          <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+          <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+          <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
+          <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
+          <option>Wisconsin</option><option>Wyoming</option>
+          <option>Outside the US</option><option>Prefer not to say</option>
+        </select>
+      </div>
+
+      <div class="chapter-actions demo-actions">
+        <button class="btn-primary" onclick="startCards()">Meet the first person →</button>
+        <button class="btn-skip" onclick="skipToPartTwo()">Skip Part One →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARDS -->
+<div id="s-cards" style="display:none">
+  <div class="card-corner-nav" id="card-corner-nav">
+    <button onclick="prevCard()">← Back</button>
+    <button onclick="nextCard()">Forward →</button>
+  </div>
+  <div class="prog-row">
+    <div class="prog-dots" id="prog-dots"></div>
+    <span class="prog-label" id="prog-label">1 of 9</span>
+  </div>
+  <div class="cards-layout" id="cards-layout">
+    <div class="cards-left">
+      <div id="card-el"></div>
+    </div>
+    <div class="cards-right">
+      <div class="card-figure" id="card-figure"></div>
+    </div>
+  </div>
+</div>
+
+<!-- REASONING -->
+<div id="s-reasoning" style="display:none">
+  <div class="mast">
+    <div class="page">
+      <p class="mast-eye">One last question</p>
+      <h1 class="mast-title">What drove <em>your choices</em>?</h1>
+      <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
+    </div>
+  </div>
+  <div class="page screen chapter-panel reasoning-panel">
+    <p style="font-size:0.93rem;color:var(--ink-mid);margin-bottom:1.4rem;line-height:1.8;">You just answered questions about nine different people. Looking back — what do you think mattered most to you?</p>
+    <div class="r-tiles">
+      <button class="r-tile" onclick="setReasoning('legal',this)">Whether they had legal status</button>
+      <button class="r-tile" onclick="setReasoning('time',this)">How long they had been here</button>
+      <button class="r-tile" onclick="setReasoning('origin',this)">Where they originally came from</button>
+      <button class="r-tile" onclick="setReasoning('appearance',this)">How they look or seem to others</button>
+      <button class="r-tile" onclick="setReasoning('contribution',this)">What they contribute</button>
+      <button class="r-tile" onclick="setReasoning('family',this)">Family connections here</button>
+      <button class="r-tile" onclick="setReasoning('cant_name',this)">Something I can't quite name</button>
+    </div>
+    <button class="btn-primary" id="r-next" style="display:none" onclick="goToPattern()">See your results →</button>
+    <br><br>
+    <button class="btn-secondary" onclick="backToCards()">← Back to Part 1</button>
+  </div>
+</div>
+
+<!-- PATTERN -->
+<div id="s-pattern" style="display:none">
+  <div class="mast">
+    <div class="page">
+      <p class="mast-eye">Your answers</p>
+      <h1 class="mast-title">Here is what <em>you said</em></h1>
+      <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
+    </div>
+  </div>
+  <div class="page screen chapter-panel chapter-panel-wide pattern-panel">
+    <div id="ptable-wrap"></div>
+    <div id="obs-wrap" class="obs-wrap"></div>
+    <p class="saved" id="saved-note"></p>
+    <button class="btn-primary" onclick="goToEtymology()">Continue — The word itself →</button>
+    <br><br>
+    <button class="btn-secondary" onclick="backToReasoning()">← Back to Part 1</button>
+    <br>
+    <button class="btn-secondary" onclick="resetAll()">Start over</button>
+  </div>
+</div>
+
+<!-- ETYMOLOGY -->
+<div id="s-etymology" style="display:none">
+  <div class="mast">
+    <div class="page">
+      <p class="mast-eye">Part Two</p>
+      <h1 class="mast-title">The word <em>itself</em></h1>
+      <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
+      <p class="mast-sub etym-hero-copy">You just used the word "immigrant" nine times. But where did that word come from, and did it always mean what it means today?</p>
+    </div>
+  </div>
+  <div class="screen etym-screen">
+    <div class="page etym-flow">
+    <div id="etym-prompt">
+      <p class="etym-q">Before we look it up — what do you think the word literally means?</p>
+      <div class="etym-tiles" id="etym-guess">
+        <button class="etym-tile" onclick="makeGuess(this)">Someone who enters a country illegally</button>
+        <button class="etym-tile" onclick="makeGuess(this)">Someone who moves to live in a foreign country</button>
+        <button class="etym-tile" onclick="makeGuess(this)">Someone who is not a citizen</button>
+        <button class="etym-tile" onclick="makeGuess(this)">Someone who leaves their country for economic reasons</button>
+      </div>
+    </div>
+
+    <div id="etym-reveal" style="display:none">
+      <div class="word-box">
+        <div class="w-term">immigrant</div>
+        <div class="w-origin">From Latin <em>immigrare</em> — "to move into." First appeared in English in the 1780s–1790s.</div>
+        <div class="w-def">A person who comes to live permanently in a foreign country.</div>
+      </div>
+
+      <div class="etym-body">
+        <p>That definition is only about <strong>230 years old</strong>. It appeared during the era when nation-states were forming — when governments first began drawing sharp lines between those who belonged and those who did not.</p>
+        <p>But people have always moved. Romans settled in Britain. Arab traders migrated across North Africa. Turkic peoples moved into Anatolia. Europeans crossed the Atlantic. None of them were called immigrants. They had other words — words that reveal something different about how their movement was understood.</p>
+      </div>
+
+      <p class="etym-note">Tap each label to see what it actually meant — and what it was tracking.</p>
+
+      <div class="label-cards">
+        <div class="label-card" onclick="toggleLabel(this)">
+          <div class="lc-term">Foreigner</div>
+          <div class="lc-sub">Social · about belonging</div>
+          <div class="lc-body">Someone from outside the community. The category was social, not administrative — it described how a community felt about someone, not their legal status. It focused on cultural difference, not movement.</div>
+        </div>
+        <div class="label-card" onclick="toggleLabel(this)">
+          <div class="lc-term">Alien</div>
+          <div class="lc-sub">Legal · about loyalty</div>
+          <div class="lc-body">Used in English law for centuries. Meant someone who owed allegiance to another sovereign — it was about legal loyalty, not the act of moving. Used in laws about property ownership, trade rights, and loyalty to the crown.</div>
+        </div>
+        <div class="label-card" onclick="toggleLabel(this)">
+          <div class="lc-term">Settler</div>
+          <div class="lc-sub">Power · about occupation</div>
+          <div class="lc-body">Someone establishing residence in new land, often tied to power and expansion. It focused on founding or occupying — and implicitly on the relationship to whoever was already there. A colonial category.</div>
+        </div>
+        <div class="label-card" onclick="toggleLabel(this)">
+          <div class="lc-term">Stranger</div>
+          <div class="lc-sub">Temporal · about familiarity</div>
+          <div class="lc-body">A temporary outsider. The focus was on time and familiarity, not permanent migration — someone not yet known, who might eventually become known. It described a moment, not a permanent status.</div>
+        </div>
+      </div>
+
+      <div class="etym-body" style="margin-top:1.5rem;">
+        <p>Notice what these four words have in common: none of them describe the act of moving. They describe the <strong>relationship to a community</strong> — through belonging, loyalty, power, or time.</p>
+        <p>The word "immigrant" changed that. It made movement itself the defining fact — not why someone came, not how they were received, not whether they belonged. Just the crossing.</p>
+      </div>
+
+      <p class="etym-note etym-note-spaced">Take the same person in two different centuries.</p>
+
+      <div class="compare-wrap">
+        <div class="compare-row">
+          <div class="compare-cell">
+            <div class="cc-year">In 1600</div>
+            <div class="cc-name">A merchant from Florence living in London</div>
+            <div>
+              <span class="cc-label">a stranger</span>
+              <span class="cc-label">a foreigner</span>
+              <span class="cc-label">a subject of another king</span>
+            </div>
+          </div>
+          <div class="compare-cell">
+            <div class="cc-year">In 1800</div>
+            <div class="cc-name">The same person, the same journey</div>
+            <div>
+              <span class="cc-label">an immigrant</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="etym-body" style="margin-top:1.5rem;">
+        <p>The movement didn't change. The person didn't change. What changed was that governments needed a single category to administer people crossing borders — and "immigrant" became that category.</p>
+        <p><strong>The issue was never the movement. It was always the belonging.</strong> And once governments controlled who could belong, they also controlled who the word applied to — and what happened to those people as a result.</p>
+        <p>That is what the policy history is about. And that is where we are going next.</p>
+      </div>
+    </div>
+    <div id="policy-history" class="policy-history-section" style="display:none">
+      <div class="tl-intro-section">
+        <div class="page">
+          <p class="tl-section-eye">Part Two, continued</p>
+          <h2 class="tl-intro-title">From the word to the law</h2>
+          <p class="tl-intro-sub">If "immigrant" became a category for deciding who belongs, policy is where that category hardened. Scroll to follow the path.</p>
+          <p class="tl-intro-hint">↓ Scroll to begin ↓</p>
+        </div>
+      </div>
+      <button class="tl-nav-btn" onclick="backToEtymology()">↑ Back to the word section</button>
+      <div class="tl-timeline-container">
+        <div class="tl-viz-wrapper">
+          <svg id="timeline-viz" viewBox="0 0 1200 800"></svg>
+          <div class="tl-traveler"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
