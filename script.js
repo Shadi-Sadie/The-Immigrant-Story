@@ -117,7 +117,6 @@ const EMOTIONS = [
   {val:'concerned',  label:'Concerned'},
   {val:'conflicted', label:'Conflicted'},
   {val:'indifferent',label:'Indifferent'},
-  {val:'afraid',     label:'Afraid'},
   {val:'unsure',     label:'Unsure'}
 ];
 
@@ -128,7 +127,7 @@ const J_QUESTIONS = {
 };
 
 const BEAT_ORDER   = ['emotion','immigrant','belongs','stay'];
-const BEAT_LABELS  = {emotion:'First reaction',immigrant:'Feels like immigrant?',belongs:'Belongs here?',stay:'Allowed to stay?'};
+const BEAT_LABELS  = {emotion:'How it made you feel',immigrant:'Feels like immigrant?',belongs:'Belongs here?',stay:'Allowed to stay?'};
 
 
 
@@ -186,9 +185,13 @@ const policies = [
 
 // ── STATE ─────────────────────────────────────────────────────────────
 let ci = 0;
+let demoStep = 1;
+let cardTransitionActive = false;
+const factShownFor = new Set();
+let factOverlayTimer = null;
 let reasoning = null;
-let etymResponse = null;
 let etymGuess = null;
+let patternRevealStartY = null;
 const demos = {age:'',gender:'',race:[],born_us:'',family_imm:'',state:''};
 const CA = PERSONAS.map(()=>({emotion:null,immigrant:null,belongs:null,stay:null}));
 
@@ -198,21 +201,68 @@ let tlActiveCard = null;
 let tlActivePhoto = null;
 let tlCurrentIndex = -1;
 
+function clearTimelineOverlays() {
+  if (tlActiveCard) { tlActiveCard.remove(); tlActiveCard = null; }
+  if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
+  tlCurrentIndex = -1;
+}
+
 // ── SCREEN NAV ────────────────────────────────────────────────────────
 function goTo(id) {
   document.querySelectorAll('[id^="s-"]').forEach(el=>el.style.display='none');
   const el = document.getElementById(id);
   el.style.display = 'block';
-  const inTimeline = id === 's-timeline';
-  document.body.classList.toggle('tl-mode', inTimeline);
-  if(!inTimeline){
-    if(tlActiveCard){tlActiveCard.remove();tlActiveCard=null;}
-    if(tlActivePhoto){tlActivePhoto.remove();tlActivePhoto=null;}
-  }
+  const history=document.getElementById('policy-history');
+  if(history)history.classList.remove('is-active');
+  document.getElementById('s-reasoning')?.classList.remove('is-active','is-revealed');
+  document.getElementById('s-pattern')?.classList.remove('is-active','is-revealed');
+  clearTimelineOverlays();
   setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),30);
 }
 
+function skipToPartTwo(){
+  goToEtymology();
+}
+
+window.goTo = goTo;
+window.skipToPartTwo = skipToPartTwo;
+
 // ── DEMOGRAPHICS ──────────────────────────────────────────────────────
+function goToDemo(){
+  goTo('s-demo');
+  renderDemoProgression(true);
+}
+
+function renderDemoProgression(animateCurrent=false){
+  document.querySelectorAll('#s-demo .demo-step').forEach(stepEl=>{
+    const step=Number(stepEl.dataset.step||'1');
+    const wasHidden=stepEl.style.display==='none';
+    const wasCurrent=stepEl.classList.contains('current');
+    const shouldShow=step===demoStep;
+    const isCurrent=step===demoStep;
+    stepEl.style.display=shouldShow?'block':'none';
+    stepEl.classList.toggle('current', isCurrent);
+    if(isCurrent && (animateCurrent || wasHidden || !wasCurrent)){
+      stepEl.classList.remove('is-entering');
+      void stepEl.offsetWidth;
+      stepEl.classList.add('is-entering');
+    }
+  });
+  const stateSelect=document.getElementById('demo-state');
+  if(stateSelect)stateSelect.value=demos.state||'';
+}
+
+function advanceDemoStep(step){
+  demoStep=Math.max(demoStep,step);
+  renderDemoProgression(true);
+  setTimeout(()=>{
+    document.querySelector(`#s-demo .demo-step[data-step="${step}"]`)?.scrollIntoView({behavior:'smooth',block:'start'});
+  },40);
+}
+
+window.goToDemo = goToDemo;
+window.advanceDemoStep = advanceDemoStep;
+
 function setD(key,val,btn) {
   demos[key]=val;
   document.querySelectorAll(`[onclick*="setD('${key}'"]`).forEach(b=>b.classList.remove('on'));
@@ -230,6 +280,19 @@ function toggleRace(val,btn) {
 // ── CARDS ─────────────────────────────────────────────────────────────
 function startCards(){goTo('s-cards');renderCard();}
 
+window.startCards = startCards;
+
+// Click-anywhere-to-advance (only when card is complete, ignore interactive elements)
+document.addEventListener('click', e=>{
+  const section=document.getElementById('s-cards');
+  if(!section||section.style.display==='none')return;
+  if(!isCardComplete())return;
+  if(document.getElementById('fact-overlay')?.classList.contains('visible'))return;
+  const skip=['button','a','input','select','textarea'];
+  if(skip.includes(e.target.tagName.toLowerCase()))return;
+  nextCard();
+});
+
 function isCardComplete(index=ci){
   return BEAT_ORDER.every(beat=>CA[index][beat]!==null);
 }
@@ -245,55 +308,155 @@ function updateProg(){
   document.getElementById('prog-label').textContent=`${ci+1} of ${PERSONAS.length}`;
 }
 
-function updateCardNav(){
-  const nextBtn=document.getElementById('next-btn');
-  const complete=isCardComplete(ci);
-  nextBtn.style.display='block';
-  if(ci<PERSONAS.length-1){
-    nextBtn.textContent=complete?'Next person →':'Skip to next person →';
-  } else {
-    nextBtn.textContent=complete?'See your results →':'Skip to results →';
-  }
-}
 
 function makeAvatar(p){
-  const{color:c,dark:dk,shape:s}=p;
-  const sh={
-    circle:`<circle cx="29" cy="29" r="19" fill="${c}" opacity="0.2"/><circle cx="29" cy="29" r="13" fill="${c}" opacity="0.5"><animate attributeName="r" values="13;15;13" dur="3s" repeatCount="indefinite"/></circle><circle cx="29" cy="29" r="7" fill="${dk}" opacity="0.9"/>`,
-    square:`<rect x="7" y="7" width="44" height="44" rx="3" fill="${c}" opacity="0.18"/><rect x="14" y="14" width="30" height="30" rx="2" fill="${c}" opacity="0.5"><animateTransform attributeName="transform" type="rotate" from="0 29 29" to="360 29 29" dur="14s" repeatCount="indefinite"/></rect><rect x="21" y="21" width="16" height="16" rx="2" fill="${dk}" opacity="0.9"/>`,
-    triangle:`<polygon points="29,4 55,52 3,52" fill="${c}" opacity="0.15"/><polygon points="29,11 49,48 9,48" fill="${c}" opacity="0.45"><animate attributeName="opacity" values="0.45;0.65;0.45" dur="2.8s" repeatCount="indefinite"/></polygon><polygon points="29,20 43,44 15,44" fill="${dk}" opacity="0.9"/>`,
-    hexagon:`<polygon points="29,3 51,16 51,42 29,55 7,42 7,16" fill="${c}" opacity="0.15"/><polygon points="29,10 45,20 45,38 29,48 13,38 13,20" fill="${c}" opacity="0.45"><animate attributeName="opacity" values="0.45;0.65;0.45" dur="3.5s" repeatCount="indefinite"/></polygon><polygon points="29,18 41,25 41,33 29,40 17,33 17,25" fill="${dk}" opacity="0.9"/>`,
-    diamond:`<polygon points="29,3 55,29 29,55 3,29" fill="${c}" opacity="0.15"/><polygon points="29,10 50,29 29,48 8,29" fill="${c}" opacity="0.45"><animate attributeName="opacity" values="0.45;0.65;0.45" dur="3s" repeatCount="indefinite"/></polygon><polygon points="29,19 39,29 29,39 19,29" fill="${dk}" opacity="0.9"/>`
-  };
-  return`<svg viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">${sh[s]}</svg>`;
+  const{color:c,dark:dk}=p;
+  // Faceless cartoon person — same silhouette for everyone, only color varies.
+  // The blank face oval is intentional: you're asked to judge without seeing a face.
+  return`<svg viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">
+    <!-- soft color halo -->
+    <circle cx="29" cy="29" r="27" fill="${c}" opacity="0.13">
+      <animate attributeName="opacity" values="0.13;0.22;0.13" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <!-- body / torso -->
+    <path d="M9,58 C9,37 49,37 49,58 Z" fill="${dk}" opacity="0.88"/>
+    <!-- neck -->
+    <rect x="24" y="27" width="10" height="10" rx="3" fill="${dk}" opacity="0.88"/>
+    <!-- head -->
+    <circle cx="29" cy="17" r="12" fill="${dk}" opacity="0.88"/>
+    <!-- blank face — no features -->
+    <ellipse cx="29" cy="16" rx="8" ry="8.5" fill="${c}" opacity="0.55"/>
+  </svg>`;
 }
 
 function renderCard(){
   updateProg();
   const p=PERSONAS[ci];
-  const backBtn=document.getElementById('back-btn');
-  backBtn.disabled=ci===0;
-  updateCardNav();
+  // Set persona color variable for question accent + progress dot
+  document.getElementById('s-cards').style.setProperty('--pcol', p.color);
+
+
+  // Remove story box if it migrated to right column on previous persona
+  const prevBox=document.getElementById('story-box');
+  if(prevBox && !prevBox.closest('#card-el')) prevBox.remove();
 
   document.getElementById('card-el').innerHTML=`
     <div class="card">
-      <div class="card-header">
-        <div class="avatar">${makeAvatar(p)}</div>
-        <div>
-          <div class="char-name">${p.name}, ${p.age}</div>
-          <div class="char-tag">${p.tag}</div>
+      <div class="story-box" id="story-box">
+        <div class="card-story">
+          ${p.lines.map(l=>`<span class="sline"><span class="sline-bullet">▸</span>${l}</span>`).join('')}
         </div>
-      </div>
-      <div class="card-story">
-        ${p.lines.map((l,i)=>`<span class="sline" style="transition-delay:${i*0.14}s">${l}</span>`).join('')}
       </div>
       <div class="card-beats" id="beats"></div>
     </div>`;
 
+  const figEl=document.getElementById('card-figure');
+  if(figEl){
+    // Clear any inline styles left by a previous transition
+    figEl.style.opacity='';
+    figEl.style.transform='';
+    figEl.classList.remove('is-entering');
+    const[loc,stay]=p.tag.split(' · ');
+    figEl.innerHTML=`
+      ${makeAvatar(p)}
+      <div class="figure-info">
+        <div class="figure-name">${p.name}, ${p.age}</div>
+        ${loc?`<div class="figure-tag-line">${loc}</div>`:''}
+        ${stay?`<div class="figure-tag-line">${stay}</div>`:''}
+      </div>`;
+    if(cardTransitionActive){
+      // Keep figure invisible — the flying overlay will land here and swap
+      figEl.style.opacity='0';
+      figEl.style.transform='translateY(0)';
+    } else {
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        figEl.classList.add('is-entering');
+      }));
+    }
+  }
+
+  const hasAnswers=Object.values(CA[ci]).some(v=>v!==null);
+  const lines=document.querySelectorAll('.sline');
+  if(hasAnswers){
+    // Already answered — everything immediate
+    lines.forEach(l=>l.classList.add('vis'));
+    moveStoryToRight(true);
+    renderBeats();
+  } else {
+    // Lines appear one at a time inside glass box
+    const perLine=460;
+    lines.forEach((l,i)=>setTimeout(()=>l.classList.add('vis'), i*perLine));
+    // After last line, show click-to-continue prompt
+    const afterLines=lines.length*perLine+350;
+    setTimeout(()=>{
+      const cont=document.createElement('div');
+      cont.className='story-continue';
+      cont.textContent='Continue ↓';
+      const box=document.getElementById('story-box');
+      if(box){
+        box.appendChild(cont);
+        requestAnimationFrame(()=>requestAnimationFrame(()=>cont.classList.add('vis')));
+        cont.addEventListener('click',()=>{
+          cont.remove();
+          moveStoryToRight(false);
+          setTimeout(()=>renderBeats(), 900);
+        },{once:true});
+      }
+    }, afterLines);
+  }
+}
+
+function moveStoryToRight(instant){
+  const box=document.getElementById('story-box');
+  if(!box)return;
+  const rightCol=document.querySelector('.cards-right');
+  if(!rightCol)return;
+
+  if(instant){
+    rightCol.appendChild(box);
+    return;
+  }
+
+  // Measure start (left column position)
+  const startRect=box.getBoundingClientRect();
+
+  // Create a fixed-position ghost that visually animates
+  const ghost=document.createElement('div');
+  ghost.className='story-box';
+  ghost.innerHTML=box.innerHTML;
+  ghost.style.cssText=
+    'position:fixed;left:'+startRect.left+'px;top:'+startRect.top+'px;'+
+    'width:'+startRect.width+'px;margin:0;z-index:200;pointer-events:none;'+
+    'transition:left 0.78s cubic-bezier(0.22,1,0.36,1),'+
+               'top 0.78s cubic-bezier(0.22,1,0.36,1),'+
+               'width 0.78s cubic-bezier(0.22,1,0.36,1)';
+  document.body.appendChild(ghost);
+
+  // Move real box silently into right column
+  box.style.opacity='0';
+  box.style.pointerEvents='none';
+  rightCol.appendChild(box);
+
+  // Measure target (right column position)
+  const endRect=box.getBoundingClientRect();
+
+  // Animate ghost toward target
   requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    document.querySelectorAll('.sline').forEach(l=>l.classList.add('vis'));
+    ghost.style.left=endRect.left+'px';
+    ghost.style.top=endRect.top+'px';
+    ghost.style.width=endRect.width+'px';
   }));
-  renderBeats();
+
+  // When animation ends: reveal real box, remove ghost
+  setTimeout(()=>{
+    box.style.transition='opacity 0.22s ease';
+    box.style.opacity='1';
+    box.style.pointerEvents='';
+    setTimeout(()=>{
+      ghost.remove();
+      box.style.transition='';
+    },240);
+  },800);
 }
 
 function renderBeats(){
@@ -319,22 +482,18 @@ function renderBeats(){
         </div>`;
       beats.appendChild(row);
 
-      if(beat==='emotion'){
-        const fw=document.createElement('div');
-        fw.className='b-fact-wrap';
-        fw.innerHTML=`
-          <div class="b-fact">${p.fact}</div>
-          <span class="b-cite">Source: <a href="${p.cite.url}" target="_blank" rel="noopener">${p.cite.text}</a></span>`;
-        beats.appendChild(fw);
-        requestAnimationFrame(()=>requestAnimationFrame(()=>fw.querySelector('.b-fact').classList.add('vis')));
-      }
     } else {
       reachedCurrent=true;
+      // After emotion: show fact overlay before next question
+      if(beat==='immigrant' && !factShownFor.has(ci)){
+        showFactOverlay(p);
+        return;
+      }
       const cur=document.createElement('div');
       cur.className='b-current';
       if(beat==='emotion'){
         cur.innerHTML=`
-          <p class="b-q">What is your first reaction to this person's situation?</p>
+          <p class="b-q">How does this person's situation make you feel?</p>
           <div class="e-tiles" id="et">
             ${EMOTIONS.map(o=>`<button class="e-tile" onclick="selEmotion('${o.val}',this)">${o.label}</button>`).join('')}
           </div>`;
@@ -354,7 +513,49 @@ function renderBeats(){
       }));
     }
   });
+
+  // All beats answered — show the forward CTA
+  if(!reachedCurrent){
+    const cta=document.createElement('button');
+    cta.className='card-cta';
+    const isLast=ci===PERSONAS.length-1;
+    cta.textContent=isLast?'See your results →':'Next person →';
+    cta.onclick=()=>nextCard();
+    requestAnimationFrame(()=>requestAnimationFrame(()=>cta.classList.add('vis')));
+    beats.appendChild(cta);
+  }
 }
+
+function showFactOverlay(p){
+  let ov=document.getElementById('fact-overlay');
+  if(!ov){ov=document.createElement('div');ov.id='fact-overlay';document.body.appendChild(ov);}
+  ov.innerHTML=`
+    <div class="fo-backdrop" onclick="dismissFactOverlay()"></div>
+    <div class="fo-card">
+      <div class="fo-eyebrow">— context —</div>
+      <p class="fo-text">${p.fact}</p>
+      <span class="fo-cite">Source: <a href="${p.cite.url}" target="_blank" rel="noopener">${p.cite.text}</a></span>
+      <button class="fo-btn" onclick="dismissFactOverlay()">Continue →</button>
+      <div class="fo-progress"><div class="fo-bar" id="fo-bar"></div></div>
+    </div>`;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    ov.classList.add('visible');
+    setTimeout(()=>document.getElementById('fo-bar')?.classList.add('running'),50);
+  }));
+  factOverlayTimer=setTimeout(()=>dismissFactOverlay(), 8050);
+}
+
+function dismissFactOverlay(){
+  clearTimeout(factOverlayTimer);
+  factShownFor.add(ci);
+  const ov=document.getElementById('fact-overlay');
+  if(ov){
+    ov.classList.remove('visible');
+    setTimeout(()=>{ov.innerHTML='';},320);
+  }
+  renderBeats();
+}
+window.dismissFactOverlay=dismissFactOverlay;
 
 function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'';}
 function fmtJ(v){return v==='yes'?'Yes':v==='not_sure'?'Not sure':v==='no'?'No':v;}
@@ -380,15 +581,119 @@ function selJ(beat,val,btn){
 }
 
 function changeBeat(beat){
+  if(beat==='emotion') factShownFor.delete(ci);
   BEAT_ORDER.slice(BEAT_ORDER.indexOf(beat)).forEach(b=>{CA[ci][b]=null;});
   renderBeats();
-  updateCardNav();
 }
 
-function prevCard(){if(ci>0){ci--;renderCard();document.getElementById('s-cards').scrollIntoView({behavior:'smooth',block:'start'});}}
+function transitionCard(newCi){
+  const p=PERSONAS[newCi];
+  cardTransitionActive=true;
+
+  // ── backdrop ──────────────────────────────────────────
+  let bd=document.getElementById('ct-backdrop');
+  if(!bd){
+    bd=document.createElement('div');
+    bd.id='ct-backdrop';
+    document.body.appendChild(bd);
+  }
+
+  // ── large centered avatar overlay ─────────────────────
+  let ov=document.getElementById('card-transition');
+  if(!ov){
+    ov=document.createElement('div');
+    ov.id='card-transition';
+    document.body.appendChild(ov);
+  }
+
+  const sz=340;
+  const startLeft=window.innerWidth/2-sz/2;
+  const startTop=window.innerHeight/2-sz/2-40;
+  ov.style.cssText=
+    'position:fixed;left:'+startLeft+'px;top:'+startTop+'px;'+
+    'width:'+sz+'px;z-index:300;text-align:center;'+
+    'opacity:0;pointer-events:none;transition:opacity 0.28s ease';
+  ov.innerHTML=
+    '<div class="ct-avatar">'+makeAvatar(p)+'</div>'+
+    '<div class="ct-label">'+
+      '<div class="ct-name">'+p.name+'</div>'+
+      '<div class="ct-sub">'+p.tag+'</div>'+
+    '</div>';
+
+  // Size the SVG for the centered display
+  const ovSvg=ov.querySelector('svg');
+  if(ovSvg) ovSvg.style.cssText=
+    'width:'+sz+'px;height:'+sz+'px;display:block;'+
+    'filter:drop-shadow(0 18px 52px rgba(0,0,0,0.55))';
+
+  // Fade in backdrop + overlay
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    bd.classList.add('visible');
+    ov.style.opacity='1';
+  }));
+
+  // ── after hold: render card, fly avatar to its column ─
+  setTimeout(()=>{
+    ci=newCi;
+    renderCard();
+    document.getElementById('s-cards').scrollIntoView({behavior:'instant',block:'start'});
+
+    // Measure target: the SVG inside the (hidden) card-figure
+    const figEl=document.getElementById('card-figure');
+    const figSvg=figEl?.querySelector('svg');
+    const tgt=(figSvg||figEl).getBoundingClientRect();
+
+    // Fade out label, start fading backdrop
+    const label=ov.querySelector('.ct-label');
+    if(label){label.style.transition='opacity 0.2s ease';label.style.opacity='0';}
+    bd.classList.remove('visible');
+
+    // Fly the overlay to the figure position
+    ov.style.transition=
+      'left 0.72s cubic-bezier(0.22,1,0.36,1),'+
+      'top 0.72s cubic-bezier(0.22,1,0.36,1),'+
+      'width 0.72s cubic-bezier(0.22,1,0.36,1)';
+    ov.style.left=tgt.left+'px';
+    ov.style.top=tgt.top+'px';
+    ov.style.width=tgt.width+'px';
+    if(ovSvg){
+      ovSvg.style.transition=
+        'width 0.72s cubic-bezier(0.22,1,0.36,1),'+
+        'height 0.72s cubic-bezier(0.22,1,0.36,1)';
+      ovSvg.style.width=tgt.width+'px';
+      ovSvg.style.height=tgt.width+'px'; // square
+    }
+  }, 500);
+
+  // ── avatar lands: swap overlay → real figure ──────────
+  setTimeout(()=>{
+    cardTransitionActive=false;
+    const figEl=document.getElementById('card-figure');
+    if(figEl){
+      figEl.style.transition='opacity 0.18s ease';
+      figEl.style.opacity='1';
+      setTimeout(()=>{figEl.style.transition='';},200);
+    }
+    ov.style.transition='opacity 0.18s ease';
+    ov.style.opacity='0';
+    setTimeout(()=>{ov.style.cssText='';ov.innerHTML='';},200);
+  }, 500+720+60);
+}
+
+function prevCard(){
+  if(ci>0){
+    transitionCard(ci-1);
+  } else {
+    goToDemo();
+  }
+}
 function nextCard(){
-  if(ci<PERSONAS.length-1){ci++;renderCard();document.getElementById('s-cards').scrollIntoView({behavior:'smooth',block:'start'});}
-  else{goTo('s-reasoning');renderReasoningState();}
+  if(ci<PERSONAS.length-1){
+    transitionCard(ci+1);
+  } else {
+    goTo('s-reasoning');
+    renderReasoningState();
+  }
 }
 
 function backToCards(){
@@ -401,6 +706,64 @@ function backToReasoning(){
   renderReasoningState();
 }
 
+function updateReasoningReveal(){
+  const section=document.getElementById('s-reasoning');
+  if(!section||section.style.display==='none'){
+    if(section)section.classList.remove('is-active','is-revealed');
+    return;
+  }
+
+  const rect=section.getBoundingClientRect();
+  const sectionTop=window.scrollY + rect.top;
+  const sectionBottom=sectionTop + rect.height;
+  const viewportMid=window.scrollY + (window.innerHeight * 0.5);
+  const activeEnd=sectionBottom - Math.min(window.innerHeight * 0.18, 140);
+  const revealOffset=Math.min(window.innerHeight * 0.18, 140);
+  const sectionActive=viewportMid >= sectionTop && window.scrollY < activeEnd;
+  const shouldReveal=sectionActive && window.scrollY >= sectionTop + revealOffset;
+
+  section.classList.toggle('is-active', sectionActive);
+  section.classList.toggle('is-revealed', shouldReveal);
+}
+
+function updatePatternReveal(){
+  const section=document.getElementById('s-pattern');
+  if(!section||section.style.display==='none'){
+    patternRevealStartY=null;
+    if(section)section.classList.remove('is-active','is-revealed');
+    return;
+  }
+
+  const rect=section.getBoundingClientRect();
+  const sectionTop=window.scrollY + rect.top;
+  const sectionBottom=sectionTop + rect.height;
+  if(patternRevealStartY===null){
+    const nearHeader=Math.abs(window.scrollY - sectionTop) <= 4;
+    if(!nearHeader){
+      section.classList.remove('is-active','is-revealed');
+      return;
+    }
+    patternRevealStartY=window.scrollY;
+  }
+  const viewportMid=window.scrollY + (window.innerHeight * 0.5);
+  const activeEnd=sectionBottom - Math.min(window.innerHeight * 0.18, 140);
+  const revealOffset=Math.min(window.innerHeight * 0.18, 140);
+  const sectionActive=viewportMid >= sectionTop && window.scrollY < activeEnd;
+  const scrolledPastHeader=Math.max(0, window.scrollY - patternRevealStartY);
+  const shouldReveal=sectionActive && scrolledPastHeader >= revealOffset;
+
+  section.classList.toggle('is-active', sectionActive);
+  section.classList.toggle('is-revealed', shouldReveal);
+}
+
+function updateOverlayReveals(){
+  updateReasoningReveal();
+  updatePatternReveal();
+}
+
+window.addEventListener('scroll', updateOverlayReveals);
+window.addEventListener('resize', updateOverlayReveals);
+
 // ── REASONING ─────────────────────────────────────────────────────────
 function renderReasoningState(){
   document.querySelectorAll('.r-tile').forEach(b=>b.classList.remove('on'));
@@ -408,6 +771,7 @@ function renderReasoningState(){
     document.querySelector(`[onclick*="setReasoning('${reasoning}'"]`)?.classList.add('on');
   }
   document.getElementById('r-next').style.display=reasoning?'block':'none';
+  setTimeout(updateReasoningReveal,60);
 }
 
 function setReasoning(val,btn){
@@ -418,11 +782,23 @@ function setReasoning(val,btn){
 }
 
 // ── PATTERN ───────────────────────────────────────────────────────────
-function goToPattern(){goTo('s-pattern');buildPattern();submitToSheet();}
+function goToPattern(){
+  goTo('s-pattern');
+  buildPattern();
+  submitToSheet();
+  setTimeout(()=>{
+    patternRevealStartY=null;
+    updatePatternReveal();
+  },80);
+}
 
 function backToPattern(){
   goTo('s-pattern');
   buildPattern();
+  setTimeout(()=>{
+    patternRevealStartY=null;
+    updatePatternReveal();
+  },80);
 }
 
 function goToEtymology(){
@@ -503,7 +879,13 @@ function makeGuess(btn){
   etymGuess=btn.textContent.trim();
   document.querySelectorAll('#etym-guess .etym-tile').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  setTimeout(()=>{document.getElementById('etym-reveal').style.display='block';},300);
+  setTimeout(()=>{
+    document.getElementById('s-etymology')?.classList.add('has-reveal');
+    document.getElementById('etym-reveal').style.display='block';
+    const history=document.getElementById('policy-history');
+    if(history)history.style.display='block';
+    if(!tlInitialized)setTimeout(initPolicyTimeline,100);
+  },300);
 }
 
 function toggleLabel(card){
@@ -512,31 +894,25 @@ function toggleLabel(card){
   if(!wasOpen)card.classList.add('open');
 }
 
-function setEtymResponse(val,btn){
-  etymResponse=val;
-  document.querySelectorAll('#etym-response .etym-tile').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('etym-next').style.display='block';
-}
-
 function renderEtymologyState(){
+  const section=document.getElementById('s-etymology');
   const reveal=document.getElementById('etym-reveal');
-  const nextBtn=document.getElementById('etym-next');
-  if(!reveal||!nextBtn)return;
+  const history=document.getElementById('policy-history');
+  if(!reveal)return;
 
   document.querySelectorAll('#etym-guess .etym-tile').forEach(btn=>{
     btn.classList.toggle('on', etymGuess!==null && btn.textContent.trim()===etymGuess);
   });
 
   reveal.style.display=etymGuess?'block':'none';
-
-  document.querySelectorAll('#etym-response .etym-tile').forEach(btn=>{
-    btn.classList.remove('on');
-  });
-  if(etymResponse){
-    document.querySelector(`#etym-response .etym-tile[onclick*="setEtymResponse('${etymResponse}'"]`)?.classList.add('on');
+  section?.classList.toggle('has-reveal', !!etymGuess);
+  if(history){
+    history.style.display=etymGuess?'block':'none';
+    if(!etymGuess)history.classList.remove('is-active');
   }
-  nextBtn.style.display=etymResponse?'block':'none';
+  if(etymGuess&&tlInitialized){
+    setTimeout(()=>window.dispatchEvent(new Event('scroll')),60);
+  }
 }
 
 // ── GOOGLE SHEETS ─────────────────────────────────────────────────────
@@ -558,26 +934,18 @@ async function submitToSheet(){
   }catch(e){}
 }
 
-function continueEssay() {
-  goTo('s-timeline');
-  if (tlActiveCard) { tlActiveCard.remove(); tlActiveCard = null; }
-  if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
-  tlCurrentIndex = -1;
-  window.scrollTo(0, 0);
-  if (!tlInitialized) {
-    setTimeout(initPolicyTimeline, 100);
-  } else {
-    setTimeout(()=>window.dispatchEvent(new Event('scroll')),100);
-  }
-}
-
 function backToEtymology(){
-  goToEtymology();
+  const etymology=document.getElementById('s-etymology');
+  if(etymology)etymology.scrollIntoView({behavior:'smooth',block:'start'});
 }
 function resetAll(){
-  ci=0;reasoning=null;etymResponse=null;etymGuess=null;
+  ci=0;demoStep=1;reasoning=null;etymGuess=null;
   Object.assign(demos,{age:'',gender:'',race:[],born_us:'',family_imm:'',state:''});
   PERSONAS.forEach((_,i)=>{CA[i]={emotion:null,immigrant:null,belongs:null,stay:null};});
+  document.querySelectorAll('#s-demo .dtile, #s-demo .rtile').forEach(btn=>btn.classList.remove('on'));
+  const demoState=document.getElementById('demo-state');
+  if(demoState)demoState.value='';
+  renderDemoProgression();
   goTo('s-opening');
 }
 
@@ -748,28 +1116,36 @@ function initPolicyTimeline() {
   [{offset:'0%',color:'#d4a574'},{offset:'50%',color:'#8b6f47'},{offset:'100%',color:'#c94a3a'}]
     .forEach(s => grad.append('stop').attr('offset', s.offset).attr('stop-color', s.color));
 
+  // ── CAMERA GROUP — all path/node content moves together ───────────────
+  const cameraGroup = svg.append('g').attr('class', 'tl-camera');
+
+  // Overview highlight path (slightly brighter, fades out as you zoom in)
+  const overviewBgPath = cameraGroup.append('path').attr('class', 'tl-overview-bg').attr('d', pathData)
+    .attr('fill', 'none').attr('stroke', 'rgba(212,165,116,0.28)')
+    .attr('stroke-width', bgPathWidth + 2).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+
   // Background path
-  svg.append('path').attr('class', 'tl-bg-path').attr('d', pathData)
+  cameraGroup.append('path').attr('class', 'tl-bg-path').attr('d', pathData)
     .attr('fill', 'none').attr('stroke', 'rgba(212,165,116,0.08)')
     .attr('stroke-width', bgPathWidth).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
 
   // Animated path
-  const animPath = svg.append('path').attr('class', 'tl-anim-path').attr('d', pathData)
+  const animPath = cameraGroup.append('path').attr('class', 'tl-anim-path').attr('d', pathData)
     .attr('fill', 'none').attr('stroke', 'url(#tlGradient)')
     .attr('stroke-width', animPathWidth).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
     .attr('stroke-dasharray', function() { return this.getTotalLength(); })
     .attr('stroke-dashoffset', function() { return this.getTotalLength(); });
 
   // Nodes
-  const nodes = svg.selectAll('.tl-node').data(points).enter()
+  const nodeGroups = cameraGroup.selectAll('.tl-node').data(points).enter()
     .append('g').attr('class', 'tl-node')
     .attr('transform', d => `translate(${d.x},${d.y})`);
 
-  nodes.append('circle').attr('r', nodeRadius)
+  nodeGroups.append('circle').attr('r', nodeRadius)
     .attr('fill', 'rgba(212,165,116,0.3)')
     .attr('stroke', '#d4a574').attr('stroke-width', nodeStrokeWidth);
 
-  nodes.append('text')
+  nodeGroups.append('text')
     .attr('class', 'tl-node-year')
     .attr('x', d => d.x < W / 2 ? yearOffset : -yearOffset)
     .attr('y', 4)
@@ -782,9 +1158,10 @@ function initPolicyTimeline() {
     .style('paint-order', 'stroke')
     .style('stroke', 'rgba(10,17,40,0.9)')
     .style('stroke-width', `${baseYearStrokeWidth}px`)
+    .style('opacity', 0)
     .text(d => policies[d.index].year);
 
-  // Fixed axis overlay — not included in camera translate selection
+  // Fixed axis overlay — NOT in cameraGroup, stays screen-fixed
   const axis = svg.append('g').attr('class', 'tl-axis');
 
   // Neutral center line
@@ -825,82 +1202,155 @@ function initPolicyTimeline() {
     .attr('r', 6)
     .attr('fill', '#c94a3a')
     .style('filter', 'drop-shadow(0 0 10px #c94a3a)')
+    .style('display', 'none')
     .attr('cx', W / 2).attr('cy', H / 2);
 
   const totalLen = animPath.node().getTotalLength();
   const nodeAtLength = getNodePathLengths(animPath.node(), points, totalLen);
   const snapDistance = isMobileTimeline ? 40 : 34;
 
+  // ── OVERVIEW CAMERA CONSTANTS ─────────────────────────────────────────
+  // The path spans from y=H*0.15 to y=H*0.15+tlYSpan in SVG coordinates.
+  // We scale the cameraGroup so the whole path fits in the viewport.
+  // transform="translate(tx,ty) scale(s)" maps point P to: (P.x*s + tx, P.y*s + ty)
+  const pathCenterX = W / 2;
+  const pathCenterY = H * 0.15 + tlYSpan / 2;
+  const pathTotalHeight = H * 0.15 + tlYSpan; // extent from SVG top to last node
+  const overviewScale = (H * 0.82) / pathTotalHeight;
+  const overviewTx = pathCenterX * (1 - overviewScale);       // centers x
+  const overviewTy = H / 2 - overviewScale * pathCenterY;     // centers y
+
+  // Phase thresholds (as fraction of total container scroll)
+  const OVERVIEW_END = 0.06;   // hold overview for first 6% of scroll
+  const ZOOMIN_END   = 0.14;   // zoom into first node by 14%
+
   let currentCardSide = 'left';
 
+  function easeInOut(t) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+
   function updatePolicyTimeline() {
-    if (document.getElementById('s-timeline').style.display === 'none') return;
+    const etymologyEl = document.getElementById('s-etymology');
+    const sectionEl = document.getElementById('policy-history');
+    if (!etymologyEl || etymologyEl.style.display === 'none' || !sectionEl || sectionEl.style.display === 'none') {
+      if (sectionEl) sectionEl.classList.remove('is-active');
+      clearTimelineOverlays();
+      return;
+    }
 
-    const introEl = document.querySelector('.tl-intro-section');
-    const containerEl = document.querySelector('.tl-timeline-container');
-    if (!introEl || !containerEl) return;
+    const containerEl = sectionEl.querySelector('.tl-timeline-container');
+    if (!containerEl) return;
 
-    const introH = introEl.offsetHeight;
-    const rel = Math.max(0, window.scrollY - introH);
-    const maxScroll = Math.max(1, containerEl.offsetHeight - window.innerHeight);
+    const sectionTop = sectionEl.offsetTop;
+    const sectionBottom = sectionTop + sectionEl.offsetHeight;
+    const containerTop = sectionTop + containerEl.offsetTop;
+    const scrollTop = window.scrollY;
+    const activationBuffer = Math.min(window.innerHeight * 0.18, 180);
+    const activationTop = containerTop + activationBuffer;
+    const sectionActive = scrollTop >= activationTop && scrollTop < sectionBottom;
+    sectionEl.classList.toggle('is-active', sectionActive);
+    if (!sectionActive) {
+      clearTimelineOverlays();
+      return;
+    }
+
+    const rel = Math.max(0, scrollTop - activationTop);
+    const maxScroll = Math.max(1, containerEl.offsetHeight - window.innerHeight - activationBuffer);
     const progress = Math.min(1, rel / maxScroll);
     const canActivateNode = rel > 2;
 
-    // ── CAMERA: follow the path tip via getPointAtLength ──────────────
-    // tip is the leading edge of the drawn stroke — camera centers on it.
-    // Traveler dot is pinned to SVG center = always at the tip. Perfect alignment.
-    const tipLen = progress * totalLen;
-    let snapIndex = -1;
-    let snapGap = Infinity;
-    nodeAtLength.forEach((nodeLen, index) => {
-      const gap = Math.abs(tipLen - nodeLen);
-      if (gap < snapGap) {
-        snapGap = gap;
-        snapIndex = index;
-      }
-    });
+    // ── PHASE LOGIC: overview → zoom-in → follow ──────────────────────
+    let camTx, camTy, camScale, followProgress;
 
-    const isSnapped = snapGap <= snapDistance;
-    const tip = isSnapped
-      ? points[snapIndex]
-      : animPath.node().getPointAtLength(tipLen);
-    const tx = W / 2 - tip.x;
-    const ty = H / 2 - tip.y;
+    if (progress <= OVERVIEW_END) {
+      // Phase 1: static overview — entire path visible
+      camTx = overviewTx;
+      camTy = overviewTy;
+      camScale = overviewScale;
+      followProgress = 0;
 
-    svg.selectAll('.tl-bg-path, .tl-anim-path').attr('transform', `translate(${tx},${ty})`);
-    svg.selectAll('g.tl-node').attr('transform', d =>
-      `translate(${points[d.index].x + tx},${points[d.index].y + ty})`
-    );
-    animPath.attr('stroke-dashoffset', totalLen * (1 - progress));
+    } else if (progress <= ZOOMIN_END) {
+      // Phase 2: zoom into the first node
+      const t = easeInOut((progress - OVERVIEW_END) / (ZOOMIN_END - OVERVIEW_END));
+      const firstPt = points[0];
+      const followTx = W / 2 - firstPt.x;
+      const followTy = H / 2 - firstPt.y;
+      camTx = overviewTx + (followTx - overviewTx) * t;
+      camTy = overviewTy + (followTy - overviewTy) * t;
+      camScale = overviewScale + (1 - overviewScale) * t;
+      followProgress = 0;
 
-    // ── TRAVELER: always at SVG center = camera focus = path tip ──────
+    } else {
+      // Phase 3: follow the path tip
+      followProgress = (progress - ZOOMIN_END) / (1 - ZOOMIN_END);
+      const tipLen = followProgress * totalLen;
+
+      let snapIdx = -1, snapGap = Infinity;
+      nodeAtLength.forEach((nodeLen, index) => {
+        const gap = Math.abs(tipLen - nodeLen);
+        if (gap < snapGap) { snapGap = gap; snapIdx = index; }
+      });
+      const isSnapped = snapGap <= snapDistance;
+      const tip = isSnapped ? points[snapIdx] : animPath.node().getPointAtLength(tipLen);
+      camTx = W / 2 - tip.x;
+      camTy = H / 2 - tip.y;
+      camScale = 1;
+    }
+
+    // Apply unified camera transform to entire content group
+    cameraGroup.attr('transform', `translate(${camTx},${camTy}) scale(${camScale})`);
+
+    // Overview highlight fades out as zoom-in completes
+    const overviewFade = progress <= OVERVIEW_END ? 1 :
+      progress <= ZOOMIN_END ? 1 - (progress - OVERVIEW_END) / (ZOOMIN_END - OVERVIEW_END) : 0;
+    overviewBgPath.style('opacity', overviewFade);
+
+    // Year labels fade in during zoom-in, hidden in overview (they'd be 3px tall)
+    const labelOpacity = progress <= OVERVIEW_END ? 0 :
+      progress <= ZOOMIN_END ? (progress - OVERVIEW_END) / (ZOOMIN_END - OVERVIEW_END) : 1;
+    cameraGroup.selectAll('.tl-node-year').style('opacity', labelOpacity);
+
+    // Traveler dot only visible in follow phase
+    travelerDot.style('display', progress > ZOOMIN_END ? null : 'none');
     travelerDot.attr('cx', W / 2).attr('cy', H / 2);
 
-    // ── INDEX: which node has the tip passed? ─────────────────────────
+    // Stroke draws only in follow phase
+    animPath.attr('stroke-dashoffset', totalLen * (1 - followProgress));
+
+    // ── INDEX: which node has the tip passed / which is active ─────────
+    const isFollowPhase = progress > ZOOMIN_END;
+
     let passedIndex = -1;
-    if (canActivateNode) {
+    let activeIndex = -1;
+
+    if (isFollowPhase && canActivateNode) {
+      const tipLen = followProgress * totalLen;
       for (let i = 0; i < nodeAtLength.length; i++) {
         if (tipLen >= nodeAtLength[i]) passedIndex = i;
         else break;
       }
+      let snapIdx2 = -1, snapGap2 = Infinity;
+      nodeAtLength.forEach((nodeLen, index) => {
+        const gap = Math.abs(tipLen - nodeLen);
+        if (gap < snapGap2) { snapGap2 = gap; snapIdx2 = index; }
+      });
+      if (snapGap2 <= snapDistance) activeIndex = snapIdx2;
     }
 
-    const activeIndex = canActivateNode && isSnapped ? snapIndex : -1;
-
+    // Connector (screen-space position = P * camScale + camTx/camTy)
     if (!isMobileTimeline && activeIndex >= 0) {
-      const nodeX = points[activeIndex].x + tx;
-      const nodeY = points[activeIndex].y + ty;
+      const nodeScreenX = points[activeIndex].x * camScale + camTx;
+      const nodeScreenY = points[activeIndex].y * camScale + camTy;
       connector
         .style('display', null)
-        .attr('x1', nodeX).attr('y1', nodeY)
+        .attr('x1', nodeScreenX).attr('y1', nodeScreenY)
         .attr('x2', currentCardSide === 'left' ? 25 : W - 25)
-        .attr('y2', nodeY);
+        .attr('y2', nodeScreenY);
     } else {
       connector.style('display', 'none');
     }
 
     // Node glow every frame
-    svg.selectAll('g.tl-node circle').each(function(d) {
+    cameraGroup.selectAll('g.tl-node circle').each(function(d) {
       if (d.index === activeIndex)
         d3.select(this).style('filter', 'drop-shadow(0 0 20px rgba(201,74,58,0.9))');
       else if (d.index < passedIndex)
@@ -909,7 +1359,7 @@ function initPolicyTimeline() {
         d3.select(this).style('filter', 'none');
     });
 
-    svg.selectAll('g.tl-node text.tl-node-year').each(function(d) {
+    cameraGroup.selectAll('g.tl-node text.tl-node-year').each(function(d) {
       const year = d3.select(this);
       if (d.index === activeIndex) {
         year
@@ -939,9 +1389,7 @@ function initPolicyTimeline() {
     });
 
     if (activeIndex === -1) {
-      if (tlActiveCard) { tlActiveCard.remove(); tlActiveCard = null; }
-      if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
-      tlCurrentIndex = -1;
+      clearTimelineOverlays();
       return;
     }
 
