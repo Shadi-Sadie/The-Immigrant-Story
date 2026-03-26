@@ -178,8 +178,10 @@
     <div id="ptable-wrap"></div>
     <div id="obs-wrap" class="obs-wrap"></div>
     <p class="saved" id="saved-note"></p>
-    <button class="btn-primary" onclick="goTo('s-etymology')">Continue — The word itself →</button>
+    <button class="btn-primary" onclick="goToEtymology()">Continue — The word itself →</button>
     <br><br>
+    <button class="btn-secondary" onclick="backToReasoning()">← Back to Part 1</button>
+    <br>
     <button class="btn-secondary" onclick="resetAll()">Start over</button>
   </div>
 </div>
@@ -285,6 +287,8 @@
         <button class="etym-tile" onclick="setEtymResponse('no',this)">Not really</button>
       </div>
       <button class="btn-primary" id="etym-next" style="display:none;margin-top:1.25rem;" onclick="continueEssay()">Continue — The policy history →</button>
+      <br><br>
+      <button class="btn-secondary" onclick="backToPattern()">← Back to Part 1</button>
     </div>
   </div>
 </div>
@@ -293,6 +297,7 @@
 
 <!-- PART THREE: POLICY TIMELINE -->
 <div id="s-timeline" style="display:none">
+  <button class="tl-nav-btn" onclick="backToEtymology()">← Back to the word section</button>
   <div class="tl-intro-section">
     <div>
       <p style="font-family:'Space Mono',monospace;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:#d4a574;margin-bottom:0.75rem;">Part Three</p>

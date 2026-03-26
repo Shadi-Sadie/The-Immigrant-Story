@@ -157,36 +157,38 @@ const TIMELINE = [
 
 // ── PART THREE: POLICY DATA ────────────────────────────────────────────
 const policies = [
-  { year: "1600s-1770s", title: "Colonial Settlement", type: "Exclusion", description: "European settlers sought economic and political freedom while forced migrants—enslaved Africans and indentured servants—had no choice.", impact: "Set foundation for race-based hierarchy in America.", note: "Quick naturalization incentivized settlement but excluded non-Europeans." },
-  { year: "1790", title: "Naturalization Act", type: "Citizenship", description: "First federal naturalization law established citizenship exclusively for 'free white persons' of good moral character after 2 years of residency.", impact: "Explicitly written racial exclusion into US law.", note: "Non-whites, indentured servants, and enslaved people categorically barred." },
-  { year: "1798", title: "Alien and Sedition Acts", type: "Enforcement", description: "Residency requirement for naturalization jumped from 5 to 14 years. President granted sweeping power to arrest and deport 'dangerous' aliens without due process.", impact: "Turned immigration enforcement into a political weapon.", note: "Targeted noncitizens from 'hostile nations' and anyone deemed a threat." },
-  { year: "1808", title: "Slave Trade Prohibition", type: "Exclusion", description: "Federal law banned the transatlantic slave trade, effective January 1, 1808. However, enslavement continued and was never addressed.", impact: "Slavery remained legal; enslaved people stayed ineligible for citizenship.", note: "Weak enforcement allowed illegal smuggling for decades." },
-  { year: "1857", title: "Dred Scott v. Sandford", type: "Court Decision", description: "Supreme Court ruled that no Black person—enslaved or free—could be a US citizen. Chief Justice Taney declared Blacks had 'no rights which the white man was bound to respect.'", impact: "Stripped citizenship from free Black Americans.", note: "Directly precipitated Civil War tensions. Overturned 87 years later." },
-  { year: "1868", title: "14th Amendment", type: "Constitutional Reform", description: "Birthright citizenship established for all persons born or naturalized in the US, regardless of race. This overturned Dred Scott and extended citizenship to freed enslaved people.", impact: "Citizenship based on birth, not race.", note: "Racial bars for naturalization of immigrants remained until 1952." },
-  { year: "1875", title: "Page Act", type: "Exclusion", description: "Barred entry of criminals, prostitutes, and Chinese contract laborers. Established port inspections and required ship manifests—the first continual tracking of arrivals.", impact: "Created bureaucratic apparatus for exclusion.", note: "In practice, heavily targeted Chinese women on suspicion of prostitution." },
-  { year: "1882", title: "Chinese Exclusion Act", type: "Exclusion", description: "Suspended Chinese laborers' entry for 10 years (later made indefinite). Chinese immigrants explicitly barred from naturalization. Imposed head tax and mandated deportation.", impact: "First US law to exclude an entire nationality by race.", note: "Remained the most restrictive immigration law until 1924." },
-  { year: "1891", title: "Immigration Act", type: "Enforcement", description: "Established the Bureau of Immigration. Expanded grounds for exclusion: polygamists, contagious disease, felons. Deportation possible within 1 year of unlawful entry.", impact: "Centralized federal immigration control.", note: "Gave immigration inspectors final authority with minimal due process." },
-  { year: "1917", title: "Literacy Act", type: "Exclusion", description: "Required literacy tests for adults over 16. Excluded immigrants from the 'Asiatic Barred Zone' (most of Asia and Pacific), chronic alcoholics, and those with 'psychopathic inferiority.'", impact: "Literacy test had disparate impact on many groups.", note: "Head tax raised to $8—enormous sum for poor immigrants." },
-  { year: "1924", title: "National Origins Act", type: "Quota System", description: "Capped immigration at 2% of 1890 census, heavily favoring Northwestern Europeans. Asians completely barred. Western Hemisphere exempt from caps (aimed at Mexico).", impact: "Codified racist hierarchy in law. Created US Border Patrol.", note: "Remained in effect until 1965. Explicitly intended to maintain Anglo-Saxon dominance." },
-  { year: "1940", title: "Alien Registration Act", type: "Enforcement", description: "All aliens over 14 required to register and be fingerprinted. Targeted Communists, Fascists, and Nazis. Made alien smuggling a crime.", impact: "Massive surveillance apparatus during WWII.", note: "Set precedent for wartime immigration control." },
-  { year: "1942", title: "Japanese American Internment", type: "Wartime Internment", description: "120,000+ people of Japanese descent—two-thirds US citizens—forcibly removed and incarcerated without charges or trial in 10 War Relocation Authority camps.", impact: "Citizenship offered zero protection.", note: "Upheld by Supreme Court in Korematsu v. US (1944). Redress in 1988." },
-  { year: "1943", title: "Magnuson Act", type: "Partial Reform", description: "Repealed complete Chinese exclusion (1882) and allowed limited immigration. Chinese, Indians, and Filipinos finally eligible for naturalization, but under tiny national quotas.", impact: "First crack in racial bars.", note: "Still excluded large numbers. A response to Chinese alliance during WWII." },
-  { year: "1952", title: "McCarran-Walter Act", type: "Comprehensive Reform", description: "Eliminated all racial and gender barriers to naturalization. Centralized and standardized immigration law. Created preference system for high-skilled workers and family reunification.", impact: "End of explicit racial bars to naturalization.", note: "But tightened deportation grounds and expanded 'subversive' definitions." },
-  { year: "1965", title: "Hart-Celler Act", type: "Liberal Reform", description: "Abolished national origin and race quotas entirely. Massive preference (74%) for family reunification. First numerical cap on Western Hemisphere (120,000).", impact: "Landmark civil rights era legislation.", note: "Unexpected consequence: dramatic shift in immigration sources." },
-  { year: "1975", title: "Indochina Refugee Act", type: "Refugee Admission", description: "130,000+ Vietnamese, Cambodian, and Laotian refugees admitted following fall of Saigon and Khmer Rouge takeover. Used emergency parole authority to bypass normal quotas.", impact: "Federal resettlement funding provided to states.", note: "Set stage for formal asylum system. Demonstrated US Cold War commitment." },
-  { year: "1980", title: "Refugee Act", type: "Formal System", description: "Established formal domestic resettlement and asylum procedures aligned with UN protocols. Refugees fleeing persecution based on race, religion, nationality, or politics could apply.", impact: "Created legal framework for asylum.", note: "Separated refugee admissions from regular immigration caps." },
-  { year: "1986", title: "Immigration Reform Act", type: "Amnesty + Enforcement", description: "Amnestied nearly 3 million undocumented immigrants present since 1982. Simultaneously imposed employer sanctions and increased Border Patrol by 50%.", impact: "Only comprehensive legalization in modern US history.", note: "Employer sanctions spawned document fraud industry." },
-  { year: "1994", title: "Operation Gatekeeper", type: "Enforcement", description: "Massively expanded border fencing and surveillance, especially San Diego. 'Prevention through deterrence' strategy intentionally pushed crossings into deadlier desert terrain.", impact: "Thousands died in subsequent years. Shifted patterns to Arizona and Texas.", note: "Part of broader militarization of southern border." },
-  { year: "1996", title: "IIRIRA & AEDPA", type: "Enforcement Expansion", description: "Created expedited removal with minimal due process. Established 3- and 10-year bars for unlawful presence. Mandatory detention. Allowed secret evidence in terrorism cases.", impact: "Massive expansion of deportation grounds.", note: "Applied retroactively. Started era of mass deportation infrastructure." },
-  { year: "2001-06", title: "Post-9/11 Security Acts", type: "Security Enforcement", description: "Created Department of Homeland Security, ICE, CBP. Authorized 850 miles of border fencing. Instituted NSEERS registry targeting Muslims and Arabs. Biometric visa system.", impact: "Transformed immigration into national security issue.", note: "Sweeping surveillance powers. Remains most expansive period." },
-  { year: "2012", title: "DACA", type: "Executive Reform", description: "Executive action granted temporary reprieve and work permits to ~700,000 unauthorized immigrants brought as children. No path to citizenship; not a law.", impact: "First positive action for undocumented immigrants in decades.", note: "Precarious: dependent on executive goodwill, no legislative permanence." },
-  { year: "2017-18", title: "Travel Ban & Family Separation", type: "Restrictive Enforcement", description: "Executive travel ban on multiple Muslim-majority countries (upheld by Supreme Court). Zero tolerance policy criminally prosecuted all border crossers; ~5,500 children separated from parents.", impact: "Most controversial policies in recent history.", note: "Thousands of children traumatized. Reunification efforts continued for years." }
+  // lean: -1 = maximally restrictive, +1 = maximally expansive
+  { lean: -0.50, year: "1600s-1770s", title: "Colonial Settlement", type: "Exclusion", description: "European settlers sought economic and political freedom while forced migrants—enslaved Africans and indentured servants—had no choice.", impact: "Set foundation for race-based hierarchy in America.", note: "Quick naturalization incentivized settlement but excluded non-Europeans." },
+  { lean: -0.70, year: "1790", title: "Naturalization Act", type: "Citizenship", description: "First federal naturalization law established citizenship exclusively for 'free white persons' of good moral character after 2 years of residency.", impact: "Explicitly written racial exclusion into US law.", note: "Non-whites, indentured servants, and enslaved people categorically barred." },
+  { lean: -0.80, year: "1798", title: "Alien and Sedition Acts", type: "Enforcement", description: "Residency requirement for naturalization jumped from 5 to 14 years. President granted sweeping power to arrest and deport 'dangerous' aliens without due process.", impact: "Turned immigration enforcement into a political weapon.", note: "Targeted noncitizens from 'hostile nations' and anyone deemed a threat." },
+  { lean: -0.20, year: "1808", title: "Slave Trade Prohibition", type: "Exclusion", description: "Federal law banned the transatlantic slave trade, effective January 1, 1808. However, enslavement continued and was never addressed.", impact: "Slavery remained legal; enslaved people stayed ineligible for citizenship.", note: "Weak enforcement allowed illegal smuggling for decades." },
+  { lean: -0.95, year: "1857", title: "Dred Scott v. Sandford", type: "Court Decision", description: "Supreme Court ruled that no Black person—enslaved or free—could be a US citizen. Chief Justice Taney declared Blacks had 'no rights which the white man was bound to respect.'", impact: "Stripped citizenship from free Black Americans.", note: "Directly precipitated Civil War tensions. Overturned 87 years later." },
+  { lean:  0.85, year: "1868", title: "14th Amendment", type: "Constitutional Reform", description: "Birthright citizenship established for all persons born or naturalized in the US, regardless of race. This overturned Dred Scott and extended citizenship to freed enslaved people.", impact: "Citizenship based on birth, not race.", note: "Racial bars for naturalization of immigrants remained until 1952." },
+  { lean: -0.60, year: "1875", title: "Page Act", type: "Exclusion", description: "Barred entry of criminals, prostitutes, and Chinese contract laborers. Established port inspections and required ship manifests—the first continual tracking of arrivals.", impact: "Created bureaucratic apparatus for exclusion.", note: "In practice, heavily targeted Chinese women on suspicion of prostitution." },
+  { lean: -0.95, year: "1882", title: "Chinese Exclusion Act", type: "Exclusion", description: "Suspended Chinese laborers' entry for 10 years (later made indefinite). Chinese immigrants explicitly barred from naturalization. Imposed head tax and mandated deportation.", impact: "First US law to exclude an entire nationality by race.", note: "Remained the most restrictive immigration law until 1924." },
+  { lean: -0.50, year: "1891", title: "Immigration Act", type: "Enforcement", description: "Established the Bureau of Immigration. Expanded grounds for exclusion: polygamists, contagious disease, felons. Deportation possible within 1 year of unlawful entry.", impact: "Centralized federal immigration control.", note: "Gave immigration inspectors final authority with minimal due process." },
+  { lean: -0.65, year: "1917", title: "Literacy Act", type: "Exclusion", description: "Required literacy tests for adults over 16. Excluded immigrants from the 'Asiatic Barred Zone' (most of Asia and Pacific), chronic alcoholics, and those with 'psychopathic inferiority.'", impact: "Literacy test had disparate impact on many groups.", note: "Head tax raised to $8—enormous sum for poor immigrants." },
+  { lean: -0.90, year: "1924", title: "National Origins Act", type: "Quota System", description: "Capped immigration at 2% of 1890 census, heavily favoring Northwestern Europeans. Asians completely barred. Western Hemisphere exempt from caps (aimed at Mexico).", impact: "Codified racist hierarchy in law. Created US Border Patrol.", note: "Remained in effect until 1965. Explicitly intended to maintain Anglo-Saxon dominance." },
+  { lean: -0.55, year: "1940", title: "Alien Registration Act", type: "Enforcement", description: "All aliens over 14 required to register and be fingerprinted. Targeted Communists, Fascists, and Nazis. Made alien smuggling a crime.", impact: "Massive surveillance apparatus during WWII.", note: "Set precedent for wartime immigration control." },
+  { lean: -1.00, year: "1942", title: "Japanese American Internment", type: "Wartime Internment", description: "120,000+ people of Japanese descent—two-thirds US citizens—forcibly removed and incarcerated without charges or trial in 10 War Relocation Authority camps.", impact: "Citizenship offered zero protection.", note: "Upheld by Supreme Court in Korematsu v. US (1944). Redress in 1988." },
+  { lean:  0.15, year: "1943", title: "Magnuson Act", type: "Partial Reform", description: "Repealed complete Chinese exclusion (1882) and allowed limited immigration. Chinese, Indians, and Filipinos finally eligible for naturalization, but under tiny national quotas.", impact: "First crack in racial bars.", note: "Still excluded large numbers. A response to Chinese alliance during WWII." },
+  { lean:  0.05, year: "1952", title: "McCarran-Walter Act", type: "Comprehensive Reform", description: "Eliminated all racial and gender barriers to naturalization. Centralized and standardized immigration law. Created preference system for high-skilled workers and family reunification.", impact: "End of explicit racial bars to naturalization.", note: "But tightened deportation grounds and expanded 'subversive' definitions." },
+  { lean:  0.90, year: "1965", title: "Hart-Celler Act", type: "Liberal Reform", description: "Abolished national origin and race quotas entirely. Massive preference (74%) for family reunification. First numerical cap on Western Hemisphere (120,000).", impact: "Landmark civil rights era legislation.", note: "Unexpected consequence: dramatic shift in immigration sources." },
+  { lean:  0.65, year: "1975", title: "Indochina Refugee Act", type: "Refugee Admission", description: "130,000+ Vietnamese, Cambodian, and Laotian refugees admitted following fall of Saigon and Khmer Rouge takeover. Used emergency parole authority to bypass normal quotas.", impact: "Federal resettlement funding provided to states.", note: "Set stage for formal asylum system. Demonstrated US Cold War commitment." },
+  { lean:  0.60, year: "1980", title: "Refugee Act", type: "Formal System", description: "Established formal domestic resettlement and asylum procedures aligned with UN protocols. Refugees fleeing persecution based on race, religion, nationality, or politics could apply.", impact: "Created legal framework for asylum.", note: "Separated refugee admissions from regular immigration caps." },
+  { lean:  0.20, year: "1986", title: "Immigration Reform Act", type: "Amnesty + Enforcement", description: "Amnestied nearly 3 million undocumented immigrants present since 1982. Simultaneously imposed employer sanctions and increased Border Patrol by 50%.", impact: "Only comprehensive legalization in modern US history.", note: "Employer sanctions spawned document fraud industry." },
+  { lean: -0.60, year: "1994", title: "Operation Gatekeeper", type: "Enforcement", description: "Massively expanded border fencing and surveillance, especially San Diego. 'Prevention through deterrence' strategy intentionally pushed crossings into deadlier desert terrain.", impact: "Thousands died in subsequent years. Shifted patterns to Arizona and Texas.", note: "Part of broader militarization of southern border." },
+  { lean: -0.80, year: "1996", title: "IIRIRA & AEDPA", type: "Enforcement Expansion", description: "Created expedited removal with minimal due process. Established 3- and 10-year bars for unlawful presence. Mandatory detention. Allowed secret evidence in terrorism cases.", impact: "Massive expansion of deportation grounds.", note: "Applied retroactively. Started era of mass deportation infrastructure." },
+  { lean: -0.85, year: "2001-06", title: "Post-9/11 Security Acts", type: "Security Enforcement", description: "Created Department of Homeland Security, ICE, CBP. Authorized 850 miles of border fencing. Instituted NSEERS registry targeting Muslims and Arabs. Biometric visa system.", impact: "Transformed immigration into national security issue.", note: "Sweeping surveillance powers. Remains most expansive period." },
+  { lean:  0.45, year: "2012", title: "DACA", type: "Executive Reform", description: "Executive action granted temporary reprieve and work permits to ~700,000 unauthorized immigrants brought as children. No path to citizenship; not a law.", impact: "First positive action for undocumented immigrants in decades.", note: "Precarious: dependent on executive goodwill, no legislative permanence." },
+  { lean: -0.90, year: "2017-18", title: "Travel Ban & Family Separation", type: "Restrictive Enforcement", description: "Executive travel ban on multiple Muslim-majority countries (upheld by Supreme Court). Zero tolerance policy criminally prosecuted all border crossers; ~5,500 children separated from parents.", impact: "Most controversial policies in recent history.", note: "Thousands of children traumatized. Reunification efforts continued for years." }
 ];
 
 // ── STATE ─────────────────────────────────────────────────────────────
 let ci = 0;
 let reasoning = null;
 let etymResponse = null;
+let etymGuess = null;
 const demos = {age:'',gender:'',race:[],born_us:'',family_imm:'',state:''};
 const CA = PERSONAS.map(()=>({emotion:null,immigrant:null,belongs:null,stay:null}));
 
@@ -201,6 +203,12 @@ function goTo(id) {
   document.querySelectorAll('[id^="s-"]').forEach(el=>el.style.display='none');
   const el = document.getElementById(id);
   el.style.display = 'block';
+  const inTimeline = id === 's-timeline';
+  document.body.classList.toggle('tl-mode', inTimeline);
+  if(!inTimeline){
+    if(tlActiveCard){tlActiveCard.remove();tlActiveCard=null;}
+    if(tlActivePhoto){tlActivePhoto.remove();tlActivePhoto=null;}
+  }
   setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),30);
 }
 
@@ -380,7 +388,7 @@ function changeBeat(beat){
 function prevCard(){if(ci>0){ci--;renderCard();document.getElementById('s-cards').scrollIntoView({behavior:'smooth',block:'start'});}}
 function nextCard(){
   if(ci<PERSONAS.length-1){ci++;renderCard();document.getElementById('s-cards').scrollIntoView({behavior:'smooth',block:'start'});}
-  else goTo('s-reasoning');
+  else{goTo('s-reasoning');renderReasoningState();}
 }
 
 function backToCards(){
@@ -388,7 +396,20 @@ function backToCards(){
   renderCard();
 }
 
+function backToReasoning(){
+  goTo('s-reasoning');
+  renderReasoningState();
+}
+
 // ── REASONING ─────────────────────────────────────────────────────────
+function renderReasoningState(){
+  document.querySelectorAll('.r-tile').forEach(b=>b.classList.remove('on'));
+  if(reasoning){
+    document.querySelector(`[onclick*="setReasoning('${reasoning}'"]`)?.classList.add('on');
+  }
+  document.getElementById('r-next').style.display=reasoning?'block':'none';
+}
+
 function setReasoning(val,btn){
   reasoning=val;
   document.querySelectorAll('.r-tile').forEach(b=>b.classList.remove('on'));
@@ -398,6 +419,16 @@ function setReasoning(val,btn){
 
 // ── PATTERN ───────────────────────────────────────────────────────────
 function goToPattern(){goTo('s-pattern');buildPattern();submitToSheet();}
+
+function backToPattern(){
+  goTo('s-pattern');
+  buildPattern();
+}
+
+function goToEtymology(){
+  goTo('s-etymology');
+  renderEtymologyState();
+}
 
 function ppill(val,type){
   if(!val)return`<span style="color:var(--ink-faint);font-size:0.75rem">—</span>`;
@@ -469,6 +500,7 @@ function buildObs(){
 
 // ── ETYMOLOGY ─────────────────────────────────────────────────────────
 function makeGuess(btn){
+  etymGuess=btn.textContent.trim();
   document.querySelectorAll('#etym-guess .etym-tile').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   setTimeout(()=>{document.getElementById('etym-reveal').style.display='block';},300);
@@ -485,6 +517,26 @@ function setEtymResponse(val,btn){
   document.querySelectorAll('#etym-response .etym-tile').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
   document.getElementById('etym-next').style.display='block';
+}
+
+function renderEtymologyState(){
+  const reveal=document.getElementById('etym-reveal');
+  const nextBtn=document.getElementById('etym-next');
+  if(!reveal||!nextBtn)return;
+
+  document.querySelectorAll('#etym-guess .etym-tile').forEach(btn=>{
+    btn.classList.toggle('on', etymGuess!==null && btn.textContent.trim()===etymGuess);
+  });
+
+  reveal.style.display=etymGuess?'block':'none';
+
+  document.querySelectorAll('#etym-response .etym-tile').forEach(btn=>{
+    btn.classList.remove('on');
+  });
+  if(etymResponse){
+    document.querySelector(`#etym-response .etym-tile[onclick*="setEtymResponse('${etymResponse}'"]`)?.classList.add('on');
+  }
+  nextBtn.style.display=etymResponse?'block':'none';
 }
 
 // ── GOOGLE SHEETS ─────────────────────────────────────────────────────
@@ -508,12 +560,22 @@ async function submitToSheet(){
 
 function continueEssay() {
   goTo('s-timeline');
-  document.body.classList.add('tl-mode');
+  if (tlActiveCard) { tlActiveCard.remove(); tlActiveCard = null; }
+  if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
+  tlCurrentIndex = -1;
   window.scrollTo(0, 0);
-  setTimeout(initPolicyTimeline, 100);
+  if (!tlInitialized) {
+    setTimeout(initPolicyTimeline, 100);
+  } else {
+    setTimeout(()=>window.dispatchEvent(new Event('scroll')),100);
+  }
+}
+
+function backToEtymology(){
+  goToEtymology();
 }
 function resetAll(){
-  ci=0;reasoning=null;etymResponse=null;
+  ci=0;reasoning=null;etymResponse=null;etymGuess=null;
   Object.assign(demos,{age:'',gender:'',race:[],born_us:'',family_imm:'',state:''});
   PERSONAS.forEach((_,i)=>{CA[i]={emotion:null,immigrant:null,belongs:null,stay:null};});
   goTo('s-opening');
@@ -579,6 +641,68 @@ function loadTimelineCard(i) {
   `;
 }
 
+function getPathDistanceToPoint(pathNode, len, point) {
+  const pt = pathNode.getPointAtLength(len);
+  const dx = pt.x - point.x;
+  const dy = pt.y - point.y;
+  return dx * dx + dy * dy;
+}
+
+function getNodePathLengths(pathNode, points, totalLen) {
+  const coarseSteps = 8000;
+  const coarseStepLen = totalLen / coarseSteps;
+  const matches = points.map((_, index) => ({
+    len: index === 0 ? 0 : index === points.length - 1 ? totalLen : 0,
+    dist: Infinity
+  }));
+
+  for (let step = 0; step <= coarseSteps; step++) {
+    const len = (step / coarseSteps) * totalLen;
+    const pt = pathNode.getPointAtLength(len);
+
+    points.forEach((point, index) => {
+      const dx = pt.x - point.x;
+      const dy = pt.y - point.y;
+      const dist = dx * dx + dy * dy;
+      if (dist < matches[index].dist) matches[index] = {dist, len};
+    });
+  }
+
+  const lengths = matches.map((match, index) => {
+    if (index === 0) return 0;
+    if (index === points.length - 1) return totalLen;
+
+    let bestLen = match.len;
+    let bestDist = getPathDistanceToPoint(pathNode, bestLen, points[index]);
+    let delta = coarseStepLen;
+
+    for (let i = 0; i < 24; i++) {
+      const leftLen = Math.max(0, bestLen - delta);
+      const rightLen = Math.min(totalLen, bestLen + delta);
+      const leftDist = getPathDistanceToPoint(pathNode, leftLen, points[index]);
+      const rightDist = getPathDistanceToPoint(pathNode, rightLen, points[index]);
+
+      if (leftDist < bestDist && leftDist <= rightDist) {
+        bestLen = leftLen;
+        bestDist = leftDist;
+      } else if (rightDist < bestDist) {
+        bestLen = rightLen;
+        bestDist = rightDist;
+      } else {
+        delta /= 2;
+      }
+    }
+
+    return bestLen;
+  });
+
+  for (let i = 1; i < lengths.length; i++) {
+    if (lengths[i] < lengths[i - 1]) lengths[i] = lengths[i - 1];
+  }
+
+  return lengths;
+}
+
 // ── PART THREE: SCROLL-DRIVEN POLICY TIMELINE ─────────────────────────
 function initPolicyTimeline() {
   if (tlInitialized) return;
@@ -589,16 +713,30 @@ function initPolicyTimeline() {
 
   const svg = d3.select('#timeline-viz');
   const W = 1200, H = 800;
+  const isMobileTimeline = window.matchMedia('(max-width: 768px)').matches;
+  const tlXSpread = W * (isMobileTimeline ? 0.16 : 0.2);
+  const tlYSpan = H * (isMobileTimeline ? 3.2 : 3.5);
+  const bgPathWidth = isMobileTimeline ? 14 : 18;
+  const animPathWidth = isMobileTimeline ? 12 : 16;
+  const nodeRadius = isMobileTimeline ? 10 : 12;
+  const nodeStrokeWidth = isMobileTimeline ? 2 : 2.5;
+  const yearOffset = isMobileTimeline ? 22 : 28;
+  const baseYearSize = isMobileTimeline ? 12 : 14;
+  const activeYearSize = isMobileTimeline ? 18 : 28;
+  const baseYearStrokeWidth = isMobileTimeline ? 2.5 : 3;
+  const activeYearStrokeWidth = isMobileTimeline ? 3 : 4;
 
-  // Build path points
-  const points = policies.map((_d, i) => {
+  // Build path points — x encodes lean (restrictive ← → expansive), y encodes time
+  const points = policies.map((p, i) => {
     const t = i / (policies.length - 1);
-    const baseX = W * 0.2 + (W * 0.6) * t;
-    const wave = Math.sin(t * Math.PI * 3) * 80;
-    return { x: baseX + wave, y: H * 0.15 + (H * 3.5) * t, index: i };
+    return {
+      x: W * 0.5 + p.lean * tlXSpread,
+      y: H * 0.15 + tlYSpan * t,
+      index: i
+    };
   });
 
-  const line = d3.line().x(d => d.x).y(d => d.y).curve(d3.curveNatural);
+  const line = d3.line().x(d => d.x).y(d => d.y).curve(d3.curveMonotoneY);
   const pathData = line(points);
 
   // Gradient
@@ -611,14 +749,14 @@ function initPolicyTimeline() {
     .forEach(s => grad.append('stop').attr('offset', s.offset).attr('stop-color', s.color));
 
   // Background path
-  svg.append('path').attr('d', pathData)
+  svg.append('path').attr('class', 'tl-bg-path').attr('d', pathData)
     .attr('fill', 'none').attr('stroke', 'rgba(212,165,116,0.08)')
-    .attr('stroke-width', 12).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
+    .attr('stroke-width', bgPathWidth).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round');
 
   // Animated path
-  const animPath = svg.append('path').attr('d', pathData)
+  const animPath = svg.append('path').attr('class', 'tl-anim-path').attr('d', pathData)
     .attr('fill', 'none').attr('stroke', 'url(#tlGradient)')
-    .attr('stroke-width', 12).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
+    .attr('stroke-width', animPathWidth).attr('stroke-linecap', 'round').attr('stroke-linejoin', 'round')
     .attr('stroke-dasharray', function() { return this.getTotalLength(); })
     .attr('stroke-dashoffset', function() { return this.getTotalLength(); });
 
@@ -627,18 +765,75 @@ function initPolicyTimeline() {
     .append('g').attr('class', 'tl-node')
     .attr('transform', d => `translate(${d.x},${d.y})`);
 
-  nodes.append('circle').attr('r', 10)
+  nodes.append('circle').attr('r', nodeRadius)
     .attr('fill', 'rgba(212,165,116,0.3)')
-    .attr('stroke', '#d4a574').attr('stroke-width', 2);
+    .attr('stroke', '#d4a574').attr('stroke-width', nodeStrokeWidth);
 
-  nodes.append('text').attr('y', -20).attr('text-anchor', 'middle')
+  nodes.append('text')
+    .attr('class', 'tl-node-year')
+    .attr('x', d => d.x < W / 2 ? yearOffset : -yearOffset)
+    .attr('y', 4)
+    .attr('text-anchor', d => d.x < W / 2 ? 'start' : 'end')
     .attr('fill', '#d4a574')
-    .style('font-family', "'Space Mono', monospace")
-    .style('font-size', '11px').style('font-weight', '700')
+    .style('font-family', "var(--serif)")
+    .style('font-size', `${baseYearSize}px`).style('font-weight', '600')
+    .style('font-style', 'italic')
+    .style('letter-spacing', '0.02em')
+    .style('paint-order', 'stroke')
+    .style('stroke', 'rgba(10,17,40,0.9)')
+    .style('stroke-width', `${baseYearStrokeWidth}px`)
     .text(d => policies[d.index].year);
 
-  // Scroll handler
-  window.addEventListener('scroll', function() {
+  // Fixed axis overlay — not included in camera translate selection
+  const axis = svg.append('g').attr('class', 'tl-axis');
+
+  // Neutral center line
+  axis.append('line')
+    .attr('x1', W / 2).attr('y1', 0)
+    .attr('x2', W / 2).attr('y2', H)
+    .attr('stroke', 'rgba(212,165,116,0.12)')
+    .attr('stroke-width', 1)
+    .attr('stroke-dasharray', '3,7');
+
+  // Axis labels
+  axis.append('text')
+    .attr('x', W * 0.12).attr('y', 32)
+    .attr('text-anchor', 'middle')
+    .attr('fill', 'rgba(201,74,58,0.55)')
+    .style('font-family', "'Space Mono', monospace")
+    .style('font-size', '10px').style('letter-spacing', '1px')
+    .text('← restrictive');
+
+  axis.append('text')
+    .attr('x', W * 0.88).attr('y', 32)
+    .attr('text-anchor', 'middle')
+    .attr('fill', 'rgba(100,190,130,0.55)')
+    .style('font-family', "'Space Mono', monospace")
+    .style('font-size', '10px').style('letter-spacing', '1px')
+    .text('expansive →');
+
+  // Connector — updated per-frame so it tracks the active node as camera moves
+  const connector = axis.append('line')
+    .attr('class', 'tl-connector')
+    .attr('stroke', 'rgba(212,165,116,0.4)')
+    .attr('stroke-width', 1)
+    .attr('stroke-dasharray', '4,5')
+    .style('display', 'none');
+
+  // SVG traveler dot — sits inside the active node's gold circle, tracks per-frame
+  const travelerDot = axis.append('circle')
+    .attr('r', 6)
+    .attr('fill', '#c94a3a')
+    .style('filter', 'drop-shadow(0 0 10px #c94a3a)')
+    .attr('cx', W / 2).attr('cy', H / 2);
+
+  const totalLen = animPath.node().getTotalLength();
+  const nodeAtLength = getNodePathLengths(animPath.node(), points, totalLen);
+  const snapDistance = isMobileTimeline ? 40 : 34;
+
+  let currentCardSide = 'left';
+
+  function updatePolicyTimeline() {
     if (document.getElementById('s-timeline').style.display === 'none') return;
 
     const introEl = document.querySelector('.tl-intro-section');
@@ -649,43 +844,120 @@ function initPolicyTimeline() {
     const rel = Math.max(0, window.scrollY - introH);
     const maxScroll = Math.max(1, containerEl.offsetHeight - window.innerHeight);
     const progress = Math.min(1, rel / maxScroll);
-    const index = Math.round(progress * (policies.length - 1));
+    const canActivateNode = rel > 2;
 
-    if (index === tlCurrentIndex || index >= policies.length) return;
-    tlCurrentIndex = index;
+    // ── CAMERA: follow the path tip via getPointAtLength ──────────────
+    // tip is the leading edge of the drawn stroke — camera centers on it.
+    // Traveler dot is pinned to SVG center = always at the tip. Perfect alignment.
+    const tipLen = progress * totalLen;
+    let snapIndex = -1;
+    let snapGap = Infinity;
+    nodeAtLength.forEach((nodeLen, index) => {
+      const gap = Math.abs(tipLen - nodeLen);
+      if (gap < snapGap) {
+        snapGap = gap;
+        snapIndex = index;
+      }
+    });
 
-    const policy = policies[index];
-    const pt = points[index];
+    const isSnapped = snapGap <= snapDistance;
+    const tip = isSnapped
+      ? points[snapIndex]
+      : animPath.node().getPointAtLength(tipLen);
+    const tx = W / 2 - tip.x;
+    const ty = H / 2 - tip.y;
 
-    // Remove previous cards
-    if (tlActiveCard)  { tlActiveCard.remove();  tlActiveCard  = null; }
-    if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
+    svg.selectAll('.tl-bg-path, .tl-anim-path').attr('transform', `translate(${tx},${ty})`);
+    svg.selectAll('g.tl-node').attr('transform', d =>
+      `translate(${points[d.index].x + tx},${points[d.index].y + ty})`
+    );
+    animPath.attr('stroke-dashoffset', totalLen * (1 - progress));
 
-    // Camera follow: translate everything so current point is at SVG center
-    const tx = W / 2 - pt.x;
-    const ty = H / 2 - pt.y;
-    svg.selectAll('path, g.tl-node').attr('transform', `translate(${tx},${ty})`);
+    // ── TRAVELER: always at SVG center = camera focus = path tip ──────
+    travelerDot.attr('cx', W / 2).attr('cy', H / 2);
 
-    // Path draw progress
-    const len = animPath.node().getTotalLength();
-    animPath.attr('stroke-dashoffset', len * (1 - progress));
+    // ── INDEX: which node has the tip passed? ─────────────────────────
+    let passedIndex = -1;
+    if (canActivateNode) {
+      for (let i = 0; i < nodeAtLength.length; i++) {
+        if (tipLen >= nodeAtLength[i]) passedIndex = i;
+        else break;
+      }
+    }
 
-    // Node glow
-    svg.selectAll('.tl-node circle').each(function(d) {
-      if (d.index === tlCurrentIndex)
+    const activeIndex = canActivateNode && isSnapped ? snapIndex : -1;
+
+    if (!isMobileTimeline && activeIndex >= 0) {
+      const nodeX = points[activeIndex].x + tx;
+      const nodeY = points[activeIndex].y + ty;
+      connector
+        .style('display', null)
+        .attr('x1', nodeX).attr('y1', nodeY)
+        .attr('x2', currentCardSide === 'left' ? 25 : W - 25)
+        .attr('y2', nodeY);
+    } else {
+      connector.style('display', 'none');
+    }
+
+    // Node glow every frame
+    svg.selectAll('g.tl-node circle').each(function(d) {
+      if (d.index === activeIndex)
         d3.select(this).style('filter', 'drop-shadow(0 0 20px rgba(201,74,58,0.9))');
-      else if (d.index < tlCurrentIndex)
+      else if (d.index < passedIndex)
         d3.select(this).style('filter', 'drop-shadow(0 0 12px rgba(212,165,116,0.6))');
       else
         d3.select(this).style('filter', 'none');
     });
 
-    // Create info card
-    const cardSide  = index % 2 === 0 ? 'left'  : 'right';
-    const photoSide = index % 2 === 0 ? 'right' : 'left';
+    svg.selectAll('g.tl-node text.tl-node-year').each(function(d) {
+      const year = d3.select(this);
+      if (d.index === activeIndex) {
+        year
+          .attr('fill', '#ffd7a1')
+          .style('font-size', `${activeYearSize}px`)
+          .style('font-weight', '700')
+          .style('stroke', 'rgba(10,17,40,0.96)')
+          .style('stroke-width', `${activeYearStrokeWidth}px`)
+          .style('filter', 'drop-shadow(0 0 10px rgba(255,215,161,0.35))');
+      } else if (d.index < passedIndex) {
+        year
+          .attr('fill', '#d4a574')
+          .style('font-size', `${baseYearSize}px`)
+          .style('font-weight', '600')
+          .style('stroke', 'rgba(10,17,40,0.9)')
+          .style('stroke-width', `${baseYearStrokeWidth}px`)
+          .style('filter', 'none');
+      } else {
+        year
+          .attr('fill', 'rgba(212,165,116,0.72)')
+          .style('font-size', `${baseYearSize}px`)
+          .style('font-weight', '600')
+          .style('stroke', 'rgba(10,17,40,0.85)')
+          .style('stroke-width', `${baseYearStrokeWidth}px`)
+          .style('filter', 'none');
+      }
+    });
+
+    if (activeIndex === -1) {
+      if (tlActiveCard) { tlActiveCard.remove(); tlActiveCard = null; }
+      if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
+      tlCurrentIndex = -1;
+      return;
+    }
+
+    // ── INDEX CHANGE: swap cards only when snapped to a node ──────────
+    if (activeIndex === tlCurrentIndex || activeIndex >= policies.length) return;
+    tlCurrentIndex = activeIndex;
+
+    const policy    = policies[activeIndex];
+    currentCardSide = activeIndex % 2 === 0 ? 'left' : 'right';
+    const photoSide = currentCardSide === 'left' ? 'right' : 'left';
+
+    if (tlActiveCard)  { tlActiveCard.remove();  tlActiveCard  = null; }
+    if (tlActivePhoto) { tlActivePhoto.remove(); tlActivePhoto = null; }
 
     tlActiveCard = document.createElement('div');
-    tlActiveCard.className = `policy-item ${cardSide} active`;
+    tlActiveCard.className = `policy-item ${currentCardSide} active`;
     tlActiveCard.innerHTML = `
       <div class="policy-card">
         <div class="policy-year">${policy.year}</div>
@@ -701,5 +973,8 @@ function initPolicyTimeline() {
     tlActivePhoto.className = `policy-item ${photoSide} active`;
     tlActivePhoto.innerHTML = `<div class="policy-photo">📷 ${policy.title}</div>`;
     document.body.appendChild(tlActivePhoto);
-  });
+  }
+
+  window.addEventListener('scroll', updatePolicyTimeline);
+  updatePolicyTimeline();
 }

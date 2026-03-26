@@ -244,7 +244,7 @@ body.tl-mode .fnote {
 
 .tl-timeline-container {
   position: relative;
-  min-height: 400vh;
+  min-height: 1500vh;
   background: linear-gradient(180deg, #0f1a2e 0%, #1a2f4a 100%);
 }
 
@@ -267,17 +267,26 @@ body.tl-mode .fnote {
 }
 
 .tl-traveler {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #c94a3a;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 0 12px #c94a3a);
-  z-index: 15;
-  pointer-events: none;
+  display: none; /* replaced by SVG circle anchored to active node */
+}
+
+.tl-nav-btn {
+  position: fixed;
+  top: 18px;
+  left: 18px;
+  z-index: 140;
+  padding: 0.6rem 0.9rem;
+  border: 1px solid rgba(212,165,116,0.45);
+  background: rgba(10,17,40,0.78);
+  color: #f5f1e8;
+  font-family: var(--body);
+  font-size: 0.82rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.tl-nav-btn:hover {
+  background: rgba(212,165,116,0.16);
 }
 
 /* policy cards — appended to body during timeline */
@@ -322,10 +331,11 @@ body.tl-mode .fnote {
   padding: 2rem;
   border-radius: 8px;
   backdrop-filter: blur(10px);
-  width: 340px;
+  width: 370px;
   max-width: 90vw;
   font-family: 'Crimson Text', serif;
   color: #f5f1e8;
+  box-shadow: 0 18px 42px rgba(0,0,0,0.3);
 }
 
 .policy-year {
@@ -394,32 +404,58 @@ body.tl-mode .fnote {
 }
 
 .policy-photo {
-  width: 300px;
+  width: 360px;
   max-width: 90vw;
   border: 2px solid #d4a574;
-  border-radius: 4px;
-  background: rgba(212,165,116,0.1);
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(212,165,116,0.18) 0%, rgba(20,30,50,0.92) 100%);
+  box-shadow: 0 18px 42px rgba(0,0,0,0.28);
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 4/3;
   font-size: 0.9rem;
-  color: #7a8a9e;
+  color: rgba(245,241,232,0.78);
   text-align: center;
-  padding: 1rem;
+  padding: 1.4rem;
   font-family: 'Crimson Text', serif;
 }
 
 @media(max-width:768px) {
+  .tl-intro-title { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+  .tl-intro-sub {
+    font-size: 1rem;
+    max-width: 24rem;
+    line-height: 1.65;
+    padding: 0 1rem;
+  }
+  .tl-intro-hint { margin-top: 2rem; }
+  .tl-nav-btn {
+    top: max(12px, env(safe-area-inset-top));
+    left: 12px;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.8rem;
+  }
+  .tl-timeline-container { min-height: 1200vh; }
   .policy-card,.policy-photo { width: 90vw; }
   .policy-item.left  { left: 2%; }
   .policy-item.right { right: 2%; }
 }
 
-@media(max-width:480px) {
+@media(max-width:640px) {
   .policy-item.right { display: none; }
-  .policy-item.left  { left: 50%; transform: translateY(-50%) translateX(-50%); }
+  .policy-item.left  {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: max(14px, calc(env(safe-area-inset-bottom) + 10px));
+    transform: translateX(-50%);
+  }
+  .policy-card {
+    max-height: 52vh;
+    overflow: auto;
+    padding: 1.1rem 1rem 1rem;
+  }
+  .policy-photo { display: none; }
   .policy-item.left.active { animation: none; }
 }
-
-
