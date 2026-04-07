@@ -163,7 +163,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
   text-transform:uppercase;
   color:rgba(245,241,232,0.3);
   cursor:pointer;
-  padding:0;
+  padding:0.5rem 0.25rem;
+  min-height:44px;
+  min-width:44px;
   transition:color 0.15s;
 }
 .card-corner-nav button:hover{color:rgba(245,241,232,0.7);}
@@ -823,6 +825,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
   .cards-left{width:100%;}
   .cards-right{position:static;width:100%;text-align:center;}
   .card-figure{width:140px;height:140px;margin:0 auto;}
+  .card-figure svg{width:140px;height:140px;}
 }
 
 #s-cards .prog-label{
@@ -1277,6 +1280,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
   .card-header,.card-story,.card-beats{padding:1rem 1.1rem;}
   .compare-row{grid-template-columns:1fr;}
   .compare-cell:first-child{border-right:none;border-bottom:1px solid var(--rule);}
+  #ptable-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .ptable{min-width:420px;}
 }
 
 /* ══════════════════════════════════════════
