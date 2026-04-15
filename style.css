@@ -853,8 +853,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:
   .cards-layout{flex-direction:column-reverse;gap:1.5rem;justify-content:flex-start;}
   .cards-left{width:100%;}
   .cards-right{position:static;width:100%;text-align:center;}
-  .card-figure{width:140px;height:140px;margin:0 auto;}
-  .card-figure svg{width:140px;height:140px;}
+  .card-figure{width:100%;height:auto;margin:0 auto;padding-bottom:1rem;}
+  .card-figure svg{width:140px;height:140px;margin:0 auto;display:block;}
+  .cards-right .story-box{
+    margin-top:0;
+    border-top:1px solid rgba(212,165,116,0.22);
+    padding-top:1.1rem;
+  }
 }
 
 #s-cards .prog-label{
