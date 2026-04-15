@@ -5,33 +5,80 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Who Is an Immigrant?</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital@0;1&family=Space+Mono&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Lora:ital,wght@0,400;0,500;1,400&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Space+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<link rel="stylesheet" href="style.css">
 <!-- OPENING -->
 <div id="s-opening">
-  <div class="mast">
-    <div class="page">
+  <!-- background layer: decorative ? + human silhouettes -->
+  <div class="opening-bg" aria-hidden="true">
+    <div class="opening-q">?</div>
+    <!-- left cluster -->
+    <svg class="fp" style="left:4%;width:58px;opacity:0.14" viewBox="-30 -70 60 140" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="-52" r="12"/>
+      <path d="M-16,-34 Q0,-41 16,-34 L18,10 L-18,10Z"/>
+      <path d="M-12,10 L-14,68 L-6,68 L-4,10Z"/>
+      <path d="M12,10 L14,68 L6,68 L4,10Z"/>
+      <path d="M-16,-30 L-26,-2 L-21,2 L-11,-27Z"/>
+      <path d="M16,-30 L26,-2 L21,2 L11,-27Z"/>
+    </svg>
+    <svg class="fp" style="left:13%;width:38px;opacity:0.09" viewBox="-30 -70 60 140" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="-52" r="12"/>
+      <path d="M-16,-34 Q0,-41 16,-34 L18,10 L-18,10Z"/>
+      <path d="M-12,10 L-14,68 L-6,68 L-4,10Z"/>
+      <path d="M12,10 L14,68 L6,68 L4,10Z"/>
+      <path d="M-16,-30 L-28,-44 L-23,-48 L-11,-27Z"/>
+      <path d="M16,-30 L26,-2 L21,2 L11,-27Z"/>
+    </svg>
+    <svg class="fp" style="left:21%;width:46px;opacity:0.11" viewBox="-30 -70 60 140" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="-52" r="12"/>
+      <path d="M-16,-34 Q0,-41 16,-34 L18,10 L-18,10Z"/>
+      <path d="M-12,10 L-14,68 L-6,68 L-4,10Z"/>
+      <path d="M12,10 L14,68 L6,68 L4,10Z"/>
+      <path d="M-16,-30 L-26,-2 L-21,2 L-11,-27Z"/>
+      <path d="M16,-30 L28,-46 L23,-50 L11,-27Z"/>
+    </svg>
+    <!-- right cluster -->
+    <svg class="fp" style="left:68%;width:52px;opacity:0.13" viewBox="-30 -70 60 140" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="-52" r="12"/>
+      <path d="M-16,-34 Q0,-41 16,-34 L18,10 L-18,10Z"/>
+      <path d="M-12,10 L-14,68 L-6,68 L-4,10Z"/>
+      <path d="M12,10 L14,68 L6,68 L4,10Z"/>
+      <path d="M-16,-30 L-28,-44 L-23,-48 L-11,-27Z"/>
+      <path d="M16,-30 L28,-44 L23,-48 L11,-27Z"/>
+    </svg>
+    <svg class="fp" style="left:78%;width:36px;opacity:0.09" viewBox="-30 -70 60 140" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="-52" r="12"/>
+      <path d="M-16,-34 Q0,-41 16,-34 L18,10 L-18,10Z"/>
+      <path d="M-12,10 L-14,68 L-6,68 L-4,10Z"/>
+      <path d="M12,10 L14,68 L6,68 L4,10Z"/>
+      <path d="M-16,-30 L-26,-2 L-21,2 L-11,-27Z"/>
+      <path d="M16,-30 L26,-2 L21,2 L11,-27Z"/>
+    </svg>
+    <svg class="fp" style="left:87%;width:54px;opacity:0.13" viewBox="-30 -70 60 140" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="0" cy="-52" r="12"/>
+      <path d="M-16,-34 Q0,-41 16,-34 L18,10 L-18,10Z"/>
+      <path d="M-12,10 L-14,68 L-6,68 L-4,10Z"/>
+      <path d="M12,10 L14,68 L6,68 L4,10Z"/>
+      <path d="M-16,-30 L-26,-2 L-21,2 L-11,-27Z"/>
+      <path d="M16,-30 L28,-46 L23,-50 L11,-27Z"/>
+    </svg>
+  </div>
+  <div class="opening-wrap">
+    <header class="opening-head">
       <p class="mast-eye">Part One</p>
       <h1 class="mast-title">Who Is an <em>Immigrant</em>?</h1>
       <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
-      <p class="mast-sub">Nine people. A few questions. No right answers.</p>
-    </div>
-  </div>
-  <div class="page screen chapter-panel opening-panel">
+    </header>
     <div class="opening">
-      <p>I have been an immigrant for most of my adult life.</p>
-      <p>I know what it feels like to fill out forms that determine whether you belong. To carry documents that expire. To be asked where you are "really from" after you've already answered. To watch people decide what you are before you've said a word.</p>
-      <p>But here's what I don't know: what's happening on the other side of that moment. What people actually think when they hear the word "immigrant." Whether they are afraid, indifferent, sympathetic — or something more complicated than any of those. Whether their answer changes depending on who the immigrant is.</p>
-      <p>I built this to find out. Not to prove a point — I genuinely don't know what we'll find. I have assumptions. Some of them are probably wrong.</p>
-      <p>You'll meet nine people. Answer a few questions about each one. At the end I'll show you what your answers reveal — and how they compare to everyone else who has been through this.</p>
-      <p class="duration">About 12 minutes. All answers are anonymous.</p>
+      <p>When you hear the word "immigrant," what picture comes to mind?<br>Where does that image come from?</p>
+      <p>Your definition might feel obvious, but it may not match how the law defines it.</p>
+      <p>This interactive essay invites you to test your assumptions, explore how immigration has been defined over time, and see how your answers compare with others.</p>
+      <p class="byline">— Shadi Sadie</p>
     </div>
     <div class="chapter-actions">
-      <button class="btn-primary" onclick="goToDemo()">Begin →</button>
+      <button class="btn-primary" onclick="goToDemo()">Let's do this</button>
       <button class="btn-skip" onclick="skipToPartTwo()">Skip Part One →</button>
     </div>
   </div>
@@ -44,12 +91,11 @@
       <p class="mast-eye">Before we begin</p>
       <h1 class="mast-title">A little <em>context</em></h1>
       <div class="mast-rule"><span></span><span class="orn">✦</span><span></span></div>
+      <p class="mast-sub">Before we ask who counts as an immigrant, it helps to know where you're answering from. Everything here is optional and anonymous.</p>
+      <p class="mast-skip">You can skip this section at any time and go straight to the story.</p>
     </div>
   </div>
   <div class="page screen chapter-panel demo-panel">
-    <p class="demo-intro">Before we ask who counts as an immigrant, it helps to know where you're answering from. Everything here is optional and anonymous.</p>
-    <p class="demo-note">You can skip this section at any time and go straight to the story.</p>
-
     <div class="demo-step" data-step="1">
       <p class="demo-step-kicker">Step 1 of 3</p>
       <div class="demo-group">
@@ -146,6 +192,11 @@
         <button class="btn-primary" onclick="startCards()">Meet the first person →</button>
         <button class="btn-skip" onclick="skipToPartTwo()">Skip Part One →</button>
       </div>
+    </div>
+
+    <div class="demo-step-nav" id="demo-corner-nav">
+      <button onclick="prevDemoStep()">← Back</button>
+      <button onclick="nextDemoStep()">Next →</button>
     </div>
   </div>
 </div>

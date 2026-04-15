@@ -11,8 +11,8 @@ const PERSONAS = [
       'Runs a small cleaning business and pays taxes.',
       'Has never gone back. This is her whole life.'
     ],
-    fact:'42% of undocumented immigrants in the US entered legally on a valid visa — they did not cross a border without papers.',
-    cite:{text:'Pew Research Center, 2022 — "Unauthorized Immigrant Population"', url:'https://www.pewresearch.org/short-reads/2023/11/16/what-we-know-about-unauthorized-immigrants-living-in-the-us/'}
+    fact:'About 4.6 million U.S.-born children under 18 lived with an unauthorized immigrant parent in 2023.',
+    cite:{text:'Pew Research Center, 2025 — "U.S. Unauthorized Immigrant Population Reached a Record 14 Million in 2023"', url:'https://www.pewresearch.org/race-and-ethnicity/2025/08/21/u-s-unauthorized-immigrant-population-reached-a-record-14-million-in-2023/'}
   },
   {
     key:'connor', name:'Connor', age:29, tag:'Boston · here 4 years',
@@ -23,8 +23,8 @@ const PERSONAS = [
       'White, English is his first language.',
       'No legal status — the same situation as María on paper.'
     ],
-    fact:'Irish nationals are among the larger undocumented populations in the US, with estimates ranging from 10,000 to over 50,000.',
-    cite:{text:'Irish International Immigrant Center / Migration Policy Institute estimates', url:'https://www.migrationpolicy.org'}
+    fact:'DHS says most unauthorized immigrants either entered without inspection or were admitted temporarily and stayed past the date they were required to depart.',
+    cite:{text:'Office of Homeland Security Statistics, 2024 — "Estimates of the Unauthorized Immigrant Population Residing in the United States"', url:'https://ohss.dhs.gov/topics/immigration/unauthorized-aliens'}
   },
   {
     key:'fatima', name:'Fatima', age:34, tag:'Michigan · here 9 years',
@@ -35,8 +35,8 @@ const PERSONAS = [
       'Works as a medical interpreter. Wears a hijab.',
       'Is applying for US citizenship.'
     ],
-    fact:'The US refugee admissions process involves 9 separate federal agencies and takes an average of 18–24 months — it is the most rigorous legal entry process available.',
-    cite:{text:'US State Department, Bureau of Population, Refugees, and Migration, 2023', url:'https://www.state.gov/refugee-admissions/'}
+    fact:'USCIS says refugee screening includes biometric and biographic checks at multiple stages before departure and again on arrival in the United States.',
+    cite:{text:'USCIS, 2024 — "Refugee Processing and Security Screening"', url:'https://www.uscis.gov/humanitarian/refugees-and-asylum/refugees/refugee-processing-and-security-screening'}
   },
   {
     key:'jamal', name:'Jamal', age:44, tag:'Minneapolis · US citizen since 2010',
@@ -47,8 +47,8 @@ const PERSONAS = [
       'Has lived here for over 20 years and owns a restaurant.',
       'Is still regularly asked where he is "really from."'
     ],
-    fact:'A landmark study found that résumés with white-sounding names received 50% more callbacks than identical résumés with Black-sounding names.',
-    cite:{text:'Bertrand & Mullainathan, "Are Emily and Greg More Employable than Lakisha and Jamal?" American Economic Review, 2004', url:'https://www.aeaweb.org/articles?id=10.1257/0002828042002561'}
+    fact:'A landmark field experiment found that resumes with white-sounding names received 50% more callbacks than identical resumes with Black-sounding names.',
+    cite:{text:'American Economic Review, 2004 — "Are Emily and Greg More Employable than Lakisha and Jamal?"', url:'https://www.aeaweb.org/articles?id=10.1257/0002828042002561'}
   },
   {
     key:'diego', name:'Diego', age:24, tag:'San Antonio · arrived age 2',
@@ -59,8 +59,8 @@ const PERSONAS = [
       'Works as a high school PE teacher.',
       'His legal protection must be renewed every two years and can be cancelled at any time.'
     ],
-    fact:'Approximately 580,000 people in the US are in Diego\'s situation — brought here as children, living in the only country they know, with a legal status that depends on political decisions.',
-    cite:{text:'US Citizenship and Immigration Services, DACA data, 2024', url:'https://www.uscis.gov/DACA'}
+    fact:'As of September 30, 2024, there were roughly 538,000 active DACA recipients in the United States.',
+    cite:{text:'KFF, 2025, using USCIS data — "Key Facts on Deferred Action for Childhood Arrivals (DACA)"', url:'https://www.kff.org/racial-equity-and-health-policy/fact-sheet/key-facts-on-individuals-eligible-for-the-deferred-action-for-childhood-arrivals-daca-program/'}
   },
   {
     key:'lena', name:'Lena', age:19, tag:'Ohio · adopted from China at age 3',
@@ -71,8 +71,8 @@ const PERSONAS = [
       'Found out at 16 — when she applied for a driver\'s license — that she had no legal status.',
       'Her parents never filed the required paperwork. It is taking years to fix.'
     ],
-    fact:'Tens of thousands of international adoptees in the US may lack citizenship due to incomplete paperwork — a gap in the law that Congress has not fully closed despite multiple attempts.',
-    cite:{text:'Adoptee Rights Campaign; Child Citizenship Act of 2000 legislative history', url:'https://www.adopteerightslaw.com'}
+    fact:'Some internationally adopted children do not automatically become citizens: for IR-4 and IH-4 cases, parents generally must complete the adoption and then secure proof of citizenship before the child turns 18.',
+    cite:{text:'U.S. Department of State, 2024 — "Obtaining U.S. Citizenship under the Child Citizenship Act"', url:'https://travel.state.gov/content/travel/en/Intercountry-Adoption/adopt_ref/adoption-FAQs/child-citizenship-act-of-2000.html'}
   },
   {
     key:'priya', name:'Priya', age:38, tag:'California · here 12 years',
@@ -83,8 +83,8 @@ const PERSONAS = [
       'Earns $210,000 a year. Has been in the legal green card queue for 11 years.',
       'At current processing rates, she may wait another 30–50 years.'
     ],
-    fact:'Due to per-country caps on green cards, an Indian national applying today for an employment-based green card faces a wait time estimated at 50 to over 100 years.',
-    cite:{text:'Bier, D., CATO Institute, "Employment-Based Green Card Backlog," 2020', url:'https://www.cato.org/blog/employment-based-green-card-backlog-reached-record-12-years'}
+    fact:'A 2023 Cato Institute analysis estimated that new Indian applicants in the EB-2 and EB-3 green card categories faced an effective wait of about 134 years under current caps.',
+    cite:{text:'Cato Institute, 2023 — "1.8 Million in Employment-Based Green Card Backlog"', url:'https://www.cato.org/blog/18-million-employment-based-green-card-backlog'}
   },
   {
     key:'yemi', name:'Yemi', age:35, tag:'Columbus, Ohio · born here',
@@ -95,8 +95,8 @@ const PERSONAS = [
       'Holds an American passport — same as anyone born here.',
       'Is regularly asked where she is "really from."'
     ],
-    fact:'A Pew Research study found that 2nd-generation Americans — born here to at least one immigrant parent — report frequent experiences of being treated as foreign, including being asked where they "really" come from.',
-    cite:{text:'Pew Research Center, "Second-Generation Americans," 2013', url:'https://www.pewresearch.org/social-trends/2013/02/07/second-generation-americans/'}
+    fact:'Pew defines the second generation as U.S.-born adults with at least one immigrant parent; in 2012, that population was about 20 million people.',
+    cite:{text:'Pew Research Center, 2013 — "Second-Generation Americans"', url:'https://www.pewresearch.org/social-trends/2013/02/07/second-generation-americans/'}
   },
   {
     key:'nadia', name:'Nadia', age:28, tag:'Tehran-born · just arrived in the US',
@@ -107,8 +107,8 @@ const PERSONAS = [
       'Just arrived in the US for the first time at age 28.',
       'She is a US citizen by birth. The passport was always hers. She just never used it.'
     ],
-    fact:'US citizenship can be passed to a child born abroad if at least one parent is a US citizen who has lived in the US for at least 5 years — no application required at birth.',
-    cite:{text:'Immigration and Nationality Act, Section 301; US State Department Consular Affairs', url:'https://travel.state.gov/content/travel/en/legal/travel-legal-considerations/us-citizenship/Citizenship-By-Birth-Abroad.html'}
+    fact:'A child born abroad on or after November 14, 1986 can acquire U.S. citizenship at birth if one parent is a U.S. citizen who was physically present in the U.S. for five years before the birth, including two after age 14.',
+    cite:{text:'U.S. Department of State, 2024 — "Obtaining U.S. Citizenship for a Child Born Abroad"', url:'https://travel.state.gov/content/travel/en/legal/travel-legal-considerations/us-citizenship/Acquisition-US-Citizenship-Child-Born-Abroad.html'}
   }
 ];
 
@@ -128,31 +128,6 @@ const J_QUESTIONS = {
 
 const BEAT_ORDER   = ['emotion','immigrant','belongs','stay'];
 const BEAT_LABELS  = {emotion:'How it made you feel',immigrant:'Feels like immigrant?',belongs:'Belongs here?',stay:'Allowed to stay?'};
-
-
-
-const TIMELINE = [
-  {
-    title: "Chinese Exclusion Act",
-    year: "1882",
-    subtitle: "First major federal immigration restriction",
-
-    images: [
-      "https://upload.wikimedia.org/wikipedia/commons/5/5c/Chinese_exclusion_cartoon.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/8/8c/Angel_Island_Immigration_Station.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/2/2e/Chinese_railroad_workers.jpg",
-      "https://upload.wikimedia.org/wikipedia/commons/6/6e/SF_chinatown_1880.jpg"
-    ],
-
-    allowed: "Non-Chinese immigrants",
-    excluded: "Chinese laborers",
-    citizenship: "Chinese immigrants could never become citizens",
-
-    change: "Immigration became about filtering people, not just movement",
-
-    reflection: "You likely didn’t apply the word 'immigrant' evenly. Some people felt like immigrants immediately. Others didn’t. That instinct has a history."
-  }
-];
 
 // ── PART THREE: POLICY DATA ────────────────────────────────────────────
 const policies = [
@@ -260,8 +235,30 @@ function advanceDemoStep(step){
   },40);
 }
 
+function prevDemoStep(){
+  if(demoStep<=1){
+    goTo('s-opening');
+    return;
+  }
+  demoStep-=1;
+  renderDemoProgression(true);
+  setTimeout(()=>{
+    document.querySelector(`#s-demo .demo-step[data-step="${demoStep}"]`)?.scrollIntoView({behavior:'smooth',block:'start'});
+  },40);
+}
+
+function nextDemoStep(){
+  if(demoStep>=3){
+    startCards();
+    return;
+  }
+  advanceDemoStep(demoStep+1);
+}
+
 window.goToDemo = goToDemo;
 window.advanceDemoStep = advanceDemoStep;
+window.prevDemoStep = prevDemoStep;
+window.nextDemoStep = nextDemoStep;
 
 function setD(key,val,btn) {
   demos[key]=val;
@@ -792,15 +789,6 @@ function goToPattern(){
   },80);
 }
 
-function backToPattern(){
-  goTo('s-pattern');
-  buildPattern();
-  setTimeout(()=>{
-    patternRevealStartY=null;
-    updatePatternReveal();
-  },80);
-}
-
 function goToEtymology(){
   goTo('s-etymology');
   renderEtymologyState();
@@ -947,66 +935,6 @@ function resetAll(){
   if(demoState)demoState.value='';
   renderDemoProgression();
   goTo('s-opening');
-}
-
-function buildTimeline() {
-  const bar = document.getElementById('timeline-bar');
-  bar.innerHTML = '';
-
-  TIMELINE.forEach((item, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'timeline-dot';
-    dot.innerHTML = `<div>${item.year}</div><div>${item.title}</div>`;
-    dot.onclick = () => loadTimelineCard(i);
-    bar.appendChild(dot);
-  });
-
-  loadTimelineCard(0);
-}
-
-function loadTimelineCard(i) {
-  const item = TIMELINE[i];
-
-  document.querySelectorAll('.timeline-dot').forEach((d, idx) => {
-    d.classList.toggle('active', idx === i);
-  });
-
-  const card = document.getElementById('timeline-card');
-
-  card.innerHTML = `
-    <div class="timeline-card">
-      <h3>${item.title}</h3>
-      <div class="timeline-meta">${item.year} · ${item.subtitle}</div>
-
-      <div class="timeline-images">
-        ${item.images.map(src => `<img src="${src}" loading="lazy">`).join('')}
-      </div>
-
-      <div class="timeline-block">
-        <strong>Who could come</strong>
-        ${item.allowed}
-      </div>
-
-      <div class="timeline-block">
-        <strong>Who was excluded</strong>
-        ${item.excluded}
-      </div>
-
-      <div class="timeline-block">
-        <strong>Citizenship</strong>
-        ${item.citizenship}
-      </div>
-
-      <div class="timeline-block">
-        <strong>What changed</strong>
-        ${item.change}
-      </div>
-
-      <div class="timeline-reflection">
-        ${item.reflection}
-      </div>
-    </div>
-  `;
 }
 
 function getPathDistanceToPoint(pathNode, len, point) {
